@@ -5,3 +5,7 @@ Wine
 Tea
 Juice
 Coke
+Chocolat
+Whisky
+Ron
+Gin

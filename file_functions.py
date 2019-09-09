@@ -30,6 +30,20 @@ def read_data_from_files():
     read_people_from_file()
 
 
+def write_new_drink(drink):
+    f = open("data/drinks.txt", "a")
+    f.write(f"{drink}\n")
+    f.close()
+
+
+def write_new_person(person: Person):
+    f = open("data/people.txt", "a")
+    f.write(f"{person.name}:{person.favourite_drink}\n")
+    f.close()
+
+
 # read_people_from_file()
 # printer_aux.print_users()
 # read_drinks_from_file()
+# write_new_drink("Gin")
+write_new_person(Person("Henry", "Coffee"))

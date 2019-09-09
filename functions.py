@@ -3,6 +3,7 @@ from person import Person
 import printer_aux
 import texts
 import data
+import file_functions
 
 # ========================= AUX FUNCTIONS =========================
 
@@ -38,10 +39,11 @@ def add_drink():
 
 def create_new_person():
     # Requests by console the necessary information to create a new person
-    print(texts.NEW_PERSON)
     name = ask_input_string(texts.ENTER_NAME)
     drink = ask_input_string(texts.ENTER_FAVOURITE_DRINK)
-    data.people.append(Person(name, drink))
+    p = Person(name, drink)
+    file_functions.write_new_person(p)
+    data.people.append(p)
 
 
 def get_option():
