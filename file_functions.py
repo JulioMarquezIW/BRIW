@@ -22,7 +22,6 @@ def read_drinks_from_file():
         drinks.append(i.strip())
     data.drinks = drinks
     f.close()
-    printer_aux.print_list(texts.DRINKS, drinks)
 
 
 def read_data_from_files():
@@ -46,4 +45,4 @@ def write_new_person(person: Person):
 # printer_aux.print_users()
 # read_drinks_from_file()
 # write_new_drink("Gin")
-write_new_person(Person("Henry", "Coffee"))
+# write_new_person(Person("Henry", "Coffee"))
