@@ -1,5 +1,3 @@
-
-
 from os import system
 import texts
 import data
