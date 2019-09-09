@@ -25,6 +25,7 @@ OPTIONS = """
         [2] Get People
         [3] Add drink
         [4] Add people
+        [555] Help
         [0] Exit
 
     """

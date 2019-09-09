@@ -4,6 +4,7 @@ import printer_aux
 import texts
 import data
 import file_functions
+import help_text
 
 
 def ask_input_string(text):
@@ -82,6 +83,9 @@ def get_option():
     elif op == 4:
         # Call the function to follow the steps to add a new person
         create_new_person()
+    elif op == 555:
+        # Call the function to follow the steps to add a new person
+        print(help_text.help_message)
     elif op == 0:
         # Just exit the program
         exit()
