@@ -34,6 +34,7 @@ def ask_input_int(text):
 
 def add_drink():
     drink = ask_input_string('Enter the drink name please: ')
+    file_functions.write_new_drink(drink)
     data.drinks.append(drink)
 
 
