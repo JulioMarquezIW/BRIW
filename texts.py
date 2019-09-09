@@ -8,6 +8,10 @@ PEOPLE = 'people'
 DRINK = 'drink'
 DRINKS = 'drinks'
 INCORRECT_NUMBER_ARGUMENTS = 'Incorrect number of arguments'
+ENTRY_INTEGER = 'Please entry an integer.'
+DRINK_NAME = 'Enter the drink name please: '
+ENTER_OPTION = 'Enter the option: '
+INCORRECT_OPTION = 'Incorrect option, please retry: '
 AVAILABLE_ARGUMENTS_OPTIONS = """
     Only one argument available.
     Available arguments: 
@@ -21,6 +25,7 @@ OPTIONS = """
         [2] Get People
         [3] Add drink
         [4] Add people
+        [555] Help
         [0] Exit
 
     """

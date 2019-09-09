@@ -29,7 +29,7 @@ def print_users():
     print('| ' + texts.PEOPLE.upper() + ' | ' + texts.DRINKS.upper())
     print_divider()
     for p in data.people:
-        print(f"| {p.name} | {p.typical_drink}")
+        print(f"| {p.name} | {p.favourite_drink}")
     print_divider()
     print('\n')
 

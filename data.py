@@ -1,22 +1,4 @@
 
-people = [
-    "Tammara",
-    "Shelia",
-    "Allison",
-    "Zola",
-    "Kendrick",
-    "Ethan",
-    "Gracia",
-    "Josue",
-    "Marin",
-    "Mitch"
-]
+people = []
 
-drinks = [
-    "Coffee",
-    "Water",
-    "Coke",
-    "Tea",
-    "Chocolate",
-    "Juice"
-]
+drinks = []

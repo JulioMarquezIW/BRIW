@@ -1,0 +1,13 @@
+Tammara:Water
+Shelia:Coffee
+Allison:Beer
+Zola:Wine
+Kendrick:Coffee
+Ethan:Water
+Gracia:Tea
+Josue:Juice
+Marin:Tea
+Mitch:Coke
+Nick:Tea
+Henry:Coffee
+Bob:Water
