@@ -1,0 +1,7 @@
+Water
+Coffee
+Beer
+Wine
+Tea
+Juice
+Coke
