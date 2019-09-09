@@ -11,3 +11,7 @@ Ron
 Gin
 Lemon
 Coco
+Cocacola
+Fanta
+21
+Green Tea

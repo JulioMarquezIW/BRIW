@@ -12,6 +12,7 @@ ENTRY_INTEGER = 'Please entry an integer.'
 DRINK_NAME = 'Enter the drink name please: '
 ENTER_OPTION = 'Enter the option: '
 INCORRECT_OPTION = 'Incorrect option, please retry: '
+ERROR_FILE = 'The previous data will not be loaded, but you can still use the application.'
 AVAILABLE_ARGUMENTS_OPTIONS = """
     Only one argument available.
     Available arguments: 

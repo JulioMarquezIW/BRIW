@@ -1,6 +1,5 @@
 from os import system
 import texts
-import data
 
 
 def print_divider():
@@ -24,11 +23,11 @@ def print_list(title, elements):
     print('\n')
 
 
-def print_users():
+def print_users(people):
     print_divider()
     print('| ' + texts.PEOPLE.upper() + ' | ' + texts.DRINKS.upper())
     print_divider()
-    for p in data.people:
+    for p in people:
         print(f"| {p.name} | {p.favourite_drink}")
     print_divider()
     print('\n')

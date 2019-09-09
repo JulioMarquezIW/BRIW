@@ -2,9 +2,7 @@
 from person import Person
 import printer_aux
 import texts
-import data
 import file_functions
-import help_text
 
 
 def ask_input_string(text):
@@ -43,15 +41,15 @@ def ask_input_int(text):
     return res
 
 
-def add_drink():
+def add_drink(drinks, filepath):
     # Auxiliary function to ask and add a new drink, in cache and write in the file.
 
     drink = ask_input_string(texts.DRINK_NAME)
-    file_functions.write_new_drink(drink)
-    data.drinks.append(drink)
+    file_functions.write_new_drink(drink, filepath)
+    drinks.append(drink)
 
 
-def create_new_person():
+def create_new_person(people, filepath):
     # Requests by console the necessary information to create a new person,
     # which are, name and favourite drink. Finaly save this new person in
     # cache and write in the people file.
@@ -59,53 +57,21 @@ def create_new_person():
     name = ask_input_string(texts.ENTER_NAME)
     drink = ask_input_string(texts.ENTER_FAVOURITE_DRINK)
     p = Person(name, drink)
-    file_functions.write_new_person(p)
-    data.people.append(p)
+    file_functions.write_new_person(p, filepath)
+    people.append(p)
 
 
-def get_option():
-    # Manages the control of the available options that can
-    # be entered by the user through the terminal.
-
-    # Ask for a value, which must be a number,
-    # and repeat the question until the user enters a number.
-    op = ask_input_int(texts.ENTER_OPTION)
-
-    if op == 1:
-        # Print list of drinks
-        printer_aux.print_list(texts.DRINKS, data.drinks)
-    elif op == 2:
-        # Print list of users
-        printer_aux.print_users()
-    elif op == 3:
-        # Call the function to follow the steps to add a new drink
-        add_drink()
-    elif op == 4:
-        # Call the function to follow the steps to add a new person
-        create_new_person()
-    elif op == 555:
-        # Call the function to follow the steps to add a new person
-        print(help_text.help_message)
-    elif op == 0:
-        # Just exit the program
-        exit()
-    else:
-        # If the number you entered is not in the options, ask for it again
-        print(texts.INCORRECT_OPTION)
-        get_option()
-
-
-def args_options(arg):
+def args_options(arg, people, drinks):
     # Manage the events available to add as arguments when launching the project.
     # +Parameters:
     #   - arg: The argument received
 
     if arg == 'get-people':
         # Print a list of people
-        printer_aux.print_users()
+        printer_aux.print_users(people)
     elif arg == 'get-drinks':
         # Print a list of drinks
-        printer_aux.print_list(texts.DRINKS, data.drinks)
+        printer_aux.print_list(texts.DRINKS, drinks)
     else:
         # If the received argument is not among those available,
         # an error message is printed and you exit the program.
@@ -113,7 +79,7 @@ def args_options(arg):
     exit()
 
 
-def check_args(args):
+def check_args(args, people, drinks):
     # Manage the number of received arguments. Only one argument is allow.
     # +Parameters:
     #   - args: The arguments received
@@ -126,4 +92,4 @@ def check_args(args):
         print(texts.AVAILABLE_ARGUMENTS_OPTIONS)
         exit()
     elif len_args == 2:
-        args_options(args[1])
+        args_options(args[1], people, drinks)
