@@ -27,8 +27,8 @@ def print_users(people):
     print_divider()
     print('| ' + texts.PEOPLE.upper())
     print_divider()
-    for p in people:
-        print(f"| {p.name} ")
+    for idx, p in enumerate(people):
+        print(f"| {idx+1}   | {p.name} ")
     print_divider()
     print('\n')
 
@@ -37,9 +37,9 @@ def print_users_preferences(people):
     print_divider()
     print('| ' + texts.PEOPLE.upper() + ' | ' + texts.DRINKS.upper())
     print_divider()
-    for p in people:
+    for idx, p in enumerate(people):
         print(
-            f"| {p.name} | {p.favourite_drink if p.favourite_drink != None else texts.NOT_FAVOURITE_DRINK}")
+            f"| {idx+1}   | {p.name} | {p.favourite_drink if p.favourite_drink != None else texts.NOT_FAVOURITE_DRINK}")
     print_divider()
     print('\n')
 

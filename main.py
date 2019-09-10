@@ -46,6 +46,9 @@ while True:
         # Call the function to follow the steps to add a new person
         functions.create_new_person(people, drinks, people_filepath)
     elif op == 6:
+        # Set favourite drink
+        people = functions.set_favourite_drink(people, drinks)
+    elif op == 7:
         # Call the function to follow the steps to add a new person
         print(texts.help_message)
     elif op == 0 or op == None:

@@ -17,6 +17,10 @@ ENTRY_BOOLEAN = 'Please enter Y or N.'
 QUESTION_ADD_DRINK = 'Do you want to add the favourite drink? (y/N): '
 NOT_FAVOURITE_DRINK = 'No favorite drink for now'
 ENTER_DRINK_ID = 'Enter the drink ID please (0 to abort): '
+ENTER_PERSON_ID = 'Enter the person ID please (0 to abort): '
+FAVOURITE_DRINK_UPDATED = 'Favourite drink updated. =)'
+
+
 AVAILABLE_ARGUMENTS_OPTIONS = """
     Only one argument available.
     Available arguments: 
@@ -31,7 +35,8 @@ OPTIONS = """
         [3] Get Preferences
         [4] Add drink
         [5] Add people
-        [555] Help
+        [6] Set favourite drink
+        [7] Help
         [0] Exit
 
     """

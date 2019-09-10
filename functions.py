@@ -78,9 +78,6 @@ def add_drink(drinks, filepath):
     drinks.append(drink)
 
 
-# def ask_drink_id():
-
-
 def create_new_person(people, drinks, filepath):
     # Requests by console the necessary information to create a new person,
     # which are, name and favourite drink. Finaly save this new person in
@@ -122,6 +119,8 @@ def check_args(args, people, drinks):
     # Manage the number of received arguments. Only one argument is allow.
     # +Parameters:
     #   - args: The arguments received
+    #   - people: list of people
+    #   - drinks: list of drinks
 
     len_args = len(args)
     # The arguments must have a length of 2 because
@@ -132,3 +131,18 @@ def check_args(args, people, drinks):
         exit()
     elif len_args == 2:
         args_options(args[1], people, drinks)
+
+
+def set_favourite_drink(people, drinks):
+
+    # Get Person ID
+    printer_aux.print_users(people)
+    person_id = ask_number(texts.ENTER_PERSON_ID, 0, len(drinks)+1)
+    if person_id != 0:
+        printer_aux.print_list(texts.DRINKS, drinks)
+        drink_id = ask_number(texts.ENTER_DRINK_ID, 0, len(drinks))
+        if drink_id != 0:
+            drink = drinks[drink_id-1]
+            people[person_id - 1].set_favourite_drink(drink)
+            print(texts.FAVOURITE_DRINK_UPDATED)
+    return people

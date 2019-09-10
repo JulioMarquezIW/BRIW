@@ -1,4 +1,6 @@
 
+import texts
+
 
 class Person:
 
@@ -8,6 +10,3 @@ class Person:
 
     def set_favourite_drink(self, new_favourite_drink):
         self.favourite_drink = new_favourite_drink
-
-    def print_favourite_drink(self):
-        print(f"{self.name} love {self.favourite_drink}")
