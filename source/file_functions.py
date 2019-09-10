@@ -1,5 +1,6 @@
 
 from person import Person
+from drink import Drink
 import printer_aux
 import texts
 
@@ -15,7 +16,7 @@ def read_people_from_file(filepath):
         with open(filepath, "r") as people_file:
             for person in people_file.readlines():
                 line = person.split(":")
-                people.append(Person(line[0], line[1].strip()))
+                people.append(Person(line[0], Drink(line[1].strip())))
     except FileNotFoundError as filenotfound:
         print(
             f"Could no open the file {filepath}. /nError: {str(filenotfound)}")
@@ -33,7 +34,7 @@ def read_drinks_from_file(filepath):
     try:
         with open(filepath, "r") as drinks_file:
             for drink in drinks_file.readlines():
-                drinks.append(drink.strip())
+                drinks.append(Drink(drink.strip()))
     except FileNotFoundError as filenotfound:
         print(
             f"Could no open the file {filepath}. /nError: {str(filenotfound)}")
@@ -50,7 +51,7 @@ def write_drinks(drinks, filepath):
     try:
         with open(filepath, "w") as drinks_file:
             for drink in drinks:
-                drinks_file.write(f"{drink}\n")
+                drinks_file.write(f"{drink.name}\n")
     except FileNotFoundError as filenotfound:
         print(
             f"Could no open the file {filepath}. /nError: {str(filenotfound)}")
@@ -63,7 +64,8 @@ def write_people(people, filepath):
     try:
         with open(filepath, "w") as people_file:
             for person in people:
-                people_file.write(f"{person.name}:{person.favourite_drink}\n")
+                people_file.write(
+                    f"{person.name}:{person.favourite_drink.name}\n")
     except FileNotFoundError as filenotfound:
         print(
             f"Could no open the file {filepath}. /nError: {str(filenotfound)}")

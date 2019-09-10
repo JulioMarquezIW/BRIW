@@ -35,16 +35,16 @@ while True:
         printer_aux.print_list(texts.DRINKS, drinks)
     elif op == 2:
         # Print list of users
-        printer_aux.print_users(people)
+        printer_aux.print_list(texts.PEOPLE, people)
     elif op == 3:
         # Print list of users and preferences
         printer_aux.print_users_preferences(people)
     elif op == 4:
         # Call the function to follow the steps to add a new drink
-        functions.add_drink(drinks, drinks_filepath)
+        functions.add_drink(drinks)
     elif op == 5:
         # Call the function to follow the steps to add a new person
-        functions.create_new_person(people, drinks, people_filepath)
+        functions.create_new_person(people, drinks)
     elif op == 6:
         # Set favourite drink
         people = functions.set_favourite_drink(people, drinks)

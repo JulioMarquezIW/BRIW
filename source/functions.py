@@ -1,4 +1,5 @@
 
+from drink import Drink
 from person import Person
 import printer_aux
 import texts
@@ -24,29 +25,16 @@ def ask_boolean(text):
     return res
 
 
-# def ask_input_string(text):
-#     # Auxiliary function to request a value(text) per command and check for errors.
-#     # +Parameters:
-#     #   - text: Message shown to request information
-#     #
-#     # Returns the value obtained
-
-#     error = True
-#     res = None
-
-#         res = input(text)
-#             error = False
-#     return res
-
-
 def ask_number(text, mininum, maximum):
-    # Auxiliary function to request a value(number) per command and check for errors.
-    # +Parameters:
-    #   - text: Message shown to request information
-    #   - mininum: Minimum number allow
-    #   - maximum: Maximum number allow
-    #
-    # Returns the value obtained
+    """
+    Auxiliary function to request a value(number) per command and check for errors.
+    +Parameters:
+        - text: Message shown to request information
+        - mininum: Minimum number allow
+        - maximum: Maximum number allow
+
+    Returns the value obtained
+    """
 
     error = True
     res = 0
@@ -67,18 +55,27 @@ def ask_number(text, mininum, maximum):
     return res
 
 
-def add_drink(drinks, filepath):
-    # Auxiliary function to ask and add a new drink, in cache and write in the file.
+def add_drink(drinks):
+    """
+    Auxiliary function to ask and add a new drink, in cache and write in the file.
+    +Parameters:
+        - drinks: list of drinks
+    """
 
     drink = input(texts.DRINK_NAME)
     if len(drink) != 0:
-        drinks.append(drink)
+        drinks.append(Drink(drink))
 
 
-def create_new_person(people, drinks, filepath):
-    # Requests by console the necessary information to create a new person,
-    # which are, name and favourite drink. Finaly save this new person in
-    # cache and write in the people file.
+def create_new_person(people, drinks):
+    """
+    Requests by console the necessary information to create a new person,
+    which are, name and favourite drink. Finaly save this new person in
+    cache and write in the people file.
+    + Parameters:
+        - people: list of people
+        - drinks: list of drinks
+    """
 
     drink = None
     name = input(texts.ENTER_NAME)
@@ -95,13 +92,17 @@ def create_new_person(people, drinks, filepath):
 
 
 def args_options(arg, people, drinks):
-    # Manage the events available to add as arguments when launching the project.
-    # +Parameters:
-    #   - arg: The argument received
+    """
+    Manage the events available to add as arguments when launching the project.
+    +Parameters:
+        - arg: The argument received
+        - people: list of people
+        - drinks: list of drinks
+    """
 
     if arg == 'get-people':
         # Print a list of people
-        printer_aux.print_users(people)
+        printer_aux.print_list(texts.PEOPLE, people)
     elif arg == 'get-drinks':
         # Print a list of drinks
         printer_aux.print_list(texts.DRINKS, drinks)
@@ -113,11 +114,13 @@ def args_options(arg, people, drinks):
 
 
 def check_args(args, people, drinks):
-    # Manage the number of received arguments. Only one argument is allow.
-    # +Parameters:
-    #   - args: The arguments received
-    #   - people: list of people
-    #   - drinks: list of drinks
+    """
+    Manage the number of received arguments. Only one argument is allow.
+    +Parameters:
+        - args: The arguments received
+        - people: list of people
+        - drinks: list of drinks
+    """
 
     len_args = len(args)
     # The arguments must have a length of 2 because
@@ -131,10 +134,16 @@ def check_args(args, people, drinks):
 
 
 def set_favourite_drink(people, drinks):
+    """
+    Set the person favourite drink
+    + Parameters:
+        - people: list of people
+        - drinks: list of drinks
+    """
 
     # Get Person ID
-    printer_aux.print_users(people)
-    person_id = ask_number(texts.ENTER_PERSON_ID, 0, len(drinks)+1)
+    printer_aux.print_list(texts.PEOPLE, people)
+    person_id = ask_number(texts.ENTER_PERSON_ID, 0, len(people))
     if person_id != 0:
         printer_aux.print_list(texts.DRINKS, drinks)
         drink_id = ask_number(texts.ENTER_DRINK_ID, 0, len(drinks))
@@ -146,6 +155,14 @@ def set_favourite_drink(people, drinks):
 
 
 def goodbye(people, drinks, people_path, drink_path):
+    """
+    Function that is always executed when exiting the program
+    + Parameters:
+        - people: list of people
+        - drinks: list of drinks
+        - people_path: Path where to store the list of people
+        - drink_path: Path where to store the list of drinks
+    """
     if ask_boolean(texts.WANT_TO_SAVE):
         file_functions.write_drinks(drinks, drink_path)
         file_functions.write_people(people, people_path)

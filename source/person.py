@@ -1,10 +1,10 @@
 
-import texts
+from drink import Drink
 
 
 class Person:
 
-    def __init__(self, name, favourite_drink):
+    def __init__(self, name, favourite_drink: Drink):
         self.name = name
         self.favourite_drink = favourite_drink
 
