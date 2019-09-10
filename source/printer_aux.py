@@ -29,7 +29,7 @@ def print_users_preferences(people):
     print_divider()
     for idx, p in enumerate(people):
         print(
-            f"| {idx+1}   | {p.name} | {p.favourite_drink.name if p.favourite_drink.name != None else texts.NOT_FAVOURITE_DRINK}")
+            f"| {idx+1}   | {p.name} | {p.favourite_drink.name if p.favourite_drink != None else texts.NOT_FAVOURITE_DRINK}")
     print_divider()
     print('\n')
 

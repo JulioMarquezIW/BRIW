@@ -16,7 +16,10 @@ def read_people_from_file(filepath):
         with open(filepath, "r") as people_file:
             for person in people_file.readlines():
                 line = person.split(":")
-                people.append(Person(line[0], Drink(line[1].strip())))
+                drink = None
+                if line[1].strip() != 'None':
+                    drink = Drink(line[1].strip())
+                people.append(Person(line[0], drink))
     except FileNotFoundError as filenotfound:
         print(
             f"Could no open the file {filepath}. /nError: {str(filenotfound)}")
@@ -64,8 +67,11 @@ def write_people(people, filepath):
     try:
         with open(filepath, "w") as people_file:
             for person in people:
+                drink = "None"
+                if person.favourite_drink:
+                    drink = person.favourite_drink.name
                 people_file.write(
-                    f"{person.name}:{person.favourite_drink.name}\n")
+                    f"{person.name}:{drink}\n")
     except FileNotFoundError as filenotfound:
         print(
             f"Could no open the file {filepath}. /nError: {str(filenotfound)}")
