@@ -24,22 +24,19 @@ def ask_boolean(text):
     return res
 
 
-def ask_input_string(text):
-    # Auxiliary function to request a value(text) per command and check for errors.
-    # +Parameters:
-    #   - text: Message shown to request information
-    #
-    # Returns the value obtained
+# def ask_input_string(text):
+#     # Auxiliary function to request a value(text) per command and check for errors.
+#     # +Parameters:
+#     #   - text: Message shown to request information
+#     #
+#     # Returns the value obtained
 
-    error = True
-    res = None
-    while error:
-        res = input(text)
-        if not res:
-            print(texts.NOT_EMPTY)
-        else:
-            error = False
-    return res
+#     error = True
+#     res = None
+
+#         res = input(text)
+#             error = False
+#     return res
 
 
 def ask_number(text, mininum, maximum):
@@ -73,8 +70,9 @@ def ask_number(text, mininum, maximum):
 def add_drink(drinks, filepath):
     # Auxiliary function to ask and add a new drink, in cache and write in the file.
 
-    drink = ask_input_string(texts.DRINK_NAME)
-    drinks.append(drink)
+    drink = input(texts.DRINK_NAME)
+    if len(drink) != 0:
+        drinks.append(drink)
 
 
 def create_new_person(people, drinks, filepath):
@@ -83,16 +81,17 @@ def create_new_person(people, drinks, filepath):
     # cache and write in the people file.
 
     drink = None
-    name = ask_input_string(texts.ENTER_NAME)
-    add_drink = ask_boolean(texts.QUESTION_ADD_DRINK)
-    if add_drink:
-        printer_aux.print_list(texts.DRINKS, drinks)
-        drink_id = ask_number(texts.ENTER_DRINK_ID, 0, len(drinks))
-        if drink_id != 0:
-            drink = drinks[drink_id-1]
+    name = input(texts.ENTER_NAME)
+    if len(name) != 0:
+        add_drink = ask_boolean(texts.QUESTION_ADD_DRINK)
+        if add_drink:
+            printer_aux.print_list(texts.DRINKS, drinks)
+            drink_id = ask_number(texts.ENTER_DRINK_ID, 0, len(drinks))
+            if drink_id != 0:
+                drink = drinks[drink_id-1]
 
-    p = Person(name, drink)
-    people.append(p)
+        p = Person(name, drink)
+        people.append(p)
 
 
 def args_options(arg, people, drinks):
@@ -147,6 +146,8 @@ def set_favourite_drink(people, drinks):
 
 
 def goodbye(people, drinks, people_path, drink_path):
-    file_functions.write_drinks(drinks, drink_path)
-    file_functions.write_people(people, people_path)
+    if ask_boolean(texts.WANT_TO_SAVE):
+        file_functions.write_drinks(drinks, drink_path)
+        file_functions.write_people(people, people_path)
+        print(texts.ALL_SAVED)
     print(texts.GOODBYE)

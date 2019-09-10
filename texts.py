@@ -1,6 +1,6 @@
 
 NOT_EMPTY = 'Cannot be empty, please retry'
-ENTER_NAME = 'Enter the name: '
+ENTER_NAME = 'Enter the name (Just press enter to abort): '
 ENTER_FAVOURITE_DRINK = 'Enter the favourite drink: '
 NEW_PERSON = 'NEW PERSON DETAILS ->'
 PRESS_ENTER = 'Please press enter to continue...'
@@ -9,7 +9,7 @@ DRINK = 'drink'
 DRINKS = 'drinks'
 INCORRECT_NUMBER_ARGUMENTS = 'Incorrect number of arguments'
 ENTRY_INTEGER = 'Please entry an integer.'
-DRINK_NAME = 'Enter the drink name please: '
+DRINK_NAME = 'Enter the drink name please, (Just press enter to abort): '
 ENTER_OPTION = 'Enter the option (0): '
 INCORRECT_OPTION = 'Incorrect option, please retry: '
 ERROR_FILE = 'The previous data will not be loaded, but you can still use the application.'
@@ -19,14 +19,10 @@ NOT_FAVOURITE_DRINK = 'No favorite drink for now'
 ENTER_DRINK_ID = 'Enter the drink ID please (0 to abort): '
 ENTER_PERSON_ID = 'Enter the person ID please (0 to abort): '
 FAVOURITE_DRINK_UPDATED = 'Favourite drink updated. =)'
+WANT_TO_SAVE = 'Do you want to save all your changes? (y/N): '
+ALL_SAVED = "\n\tALL DATA SAVED!!"
 
-
-GOODBYE = """
-
-    ALL DATA SAVED!!
-    GOOD BYE!!
-
-"""
+GOODBYE = "\n\tGOODBYE!!\n\n"
 
 AVAILABLE_ARGUMENTS_OPTIONS = """
     Only one argument available.
@@ -36,6 +32,8 @@ AVAILABLE_ARGUMENTS_OPTIONS = """
 """
 
 OPTIONS = """
+
+        WELCOME TO BrIW!!
 
         [1] Get Drinks
         [2] Get People
