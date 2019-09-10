@@ -21,6 +21,13 @@ ENTER_PERSON_ID = 'Enter the person ID please (0 to abort): '
 FAVOURITE_DRINK_UPDATED = 'Favourite drink updated. =)'
 
 
+GOODBYE = """
+
+    ALL DATA SAVED!!
+    GOOD BYE!!
+
+"""
+
 AVAILABLE_ARGUMENTS_OPTIONS = """
     Only one argument available.
     Available arguments: 

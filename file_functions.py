@@ -46,10 +46,11 @@ def read_drinks_from_file(filepath):
     return drinks
 
 
-def write_new_drink(drink, filepath):
+def write_drinks(drinks, filepath):
     try:
-        with open(filepath, "a") as drinks_file:
-            drinks_file.write(f"{drink}\n")
+        with open(filepath, "w") as drinks_file:
+            for drink in drinks:
+                drinks_file.write(f"{drink}\n")
     except FileNotFoundError as filenotfound:
         print(
             f"Could no open the file {filepath}. /nError: {str(filenotfound)}")
@@ -58,11 +59,11 @@ def write_new_drink(drink, filepath):
             f"Error opening the file {filepath}. /nError: {str(e)}")
 
 
-def write_new_person(person: Person, filepath):
-    filepath = "data/people.txt"
+def write_people(people, filepath):
     try:
-        with open(filepath, "a") as people_file:
-            people_file.write(f"{person.name}:{person.favourite_drink}\n")
+        with open(filepath, "w") as people_file:
+            for person in people:
+                people_file.write(f"{person.name}:{person.favourite_drink}\n")
     except FileNotFoundError as filenotfound:
         print(
             f"Could no open the file {filepath}. /nError: {str(filenotfound)}")

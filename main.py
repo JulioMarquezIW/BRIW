@@ -23,7 +23,7 @@ while True:
     printer_aux.print_options()
 
     minimumOptionNumber = 0
-    maximumOptionNumber = 6
+    maximumOptionNumber = 7
 
     # Ask for a value, which must be a number,
     # and repeat the question until the user enters a number.
@@ -53,6 +53,7 @@ while True:
         print(texts.help_message)
     elif op == 0 or op == None:
         # Just exit the program
+        functions.goodbye(people, drinks, people_filepath, drinks_filepath)
         exit()
     else:
         # If the number you entered is not in the options, ask for it again

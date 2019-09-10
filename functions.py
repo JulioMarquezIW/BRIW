@@ -74,7 +74,6 @@ def add_drink(drinks, filepath):
     # Auxiliary function to ask and add a new drink, in cache and write in the file.
 
     drink = ask_input_string(texts.DRINK_NAME)
-    file_functions.write_new_drink(drink, filepath)
     drinks.append(drink)
 
 
@@ -93,7 +92,6 @@ def create_new_person(people, drinks, filepath):
             drink = drinks[drink_id-1]
 
     p = Person(name, drink)
-    file_functions.write_new_person(p, filepath)
     people.append(p)
 
 
@@ -146,3 +144,9 @@ def set_favourite_drink(people, drinks):
             people[person_id - 1].set_favourite_drink(drink)
             print(texts.FAVOURITE_DRINK_UPDATED)
     return people
+
+
+def goodbye(people, drinks, people_path, drink_path):
+    file_functions.write_drinks(drinks, drink_path)
+    file_functions.write_people(people, people_path)
+    print(texts.GOODBYE)
