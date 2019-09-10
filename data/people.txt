@@ -14,3 +14,6 @@ Bob:Water
 Jack:ron
 Julio:Water
 Adrian:Beer
+Alba:None
+Isabel:None
+Emma:Coffee
