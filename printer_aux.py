@@ -1,6 +1,5 @@
 from os import system
 import texts
-import data
 
 
 def print_divider():
@@ -18,18 +17,29 @@ def print_list(title, elements):
     print_divider()
     print('| ' + title.upper())
     print_divider()
-    for l in elements:
-        print('| ' + l)
+    for idx, l in enumerate(elements):
+        print(f"| {idx+1}   | {l}")
     print_divider()
     print('\n')
 
 
-def print_users():
+def print_users(people):
+    print_divider()
+    print('| ' + texts.PEOPLE.upper())
+    print_divider()
+    for idx, p in enumerate(people):
+        print(f"| {idx+1}   | {p.name} ")
+    print_divider()
+    print('\n')
+
+
+def print_users_preferences(people):
     print_divider()
     print('| ' + texts.PEOPLE.upper() + ' | ' + texts.DRINKS.upper())
     print_divider()
-    for p in data.people:
-        print(f"| {p.name} | {p.favourite_drink}")
+    for idx, p in enumerate(people):
+        print(
+            f"| {idx+1}   | {p.name} | {p.favourite_drink if p.favourite_drink != None else texts.NOT_FAVOURITE_DRINK}")
     print_divider()
     print('\n')
 

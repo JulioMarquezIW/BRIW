@@ -1,48 +1,72 @@
 
 from person import Person
 import printer_aux
-import data
 import texts
 
 
-def read_people_from_file():
+def error_opening_file():
+    print(texts.ERROR_FILE)
+    printer_aux.enter_to_continue()
+
+
+def read_people_from_file(filepath):
     people = []
-    f = open("data/people.txt", "r")
-    for i in f.readlines():
-        line = i.split(":")
-        people.append(Person(line[0], line[1].strip()))
-    data.people = people
-    f.close()
+    try:
+        with open(filepath, "r") as people_file:
+            for person in people_file.readlines():
+                line = person.split(":")
+                people.append(Person(line[0], line[1].strip()))
+    except FileNotFoundError as filenotfound:
+        print(
+            f"Could no open the file {filepath}. /nError: {str(filenotfound)}")
+        error_opening_file()
+    except Exception as e:
+        print(
+            f"Error opening the file {filepath}. /nError: {str(e)}")
+        error_opening_file()
+
+    return people
 
 
-def read_drinks_from_file():
+def read_drinks_from_file(filepath):
     drinks = []
-    f = open("data/drinks.txt", "r")
-    for i in f.readlines():
-        drinks.append(i.strip())
-    data.drinks = drinks
-    f.close()
+    try:
+        with open(filepath, "r") as drinks_file:
+            for drink in drinks_file.readlines():
+                drinks.append(drink.strip())
+    except FileNotFoundError as filenotfound:
+        print(
+            f"Could no open the file {filepath}. /nError: {str(filenotfound)}")
+        error_opening_file()
+    except Exception as e:
+        print(
+            f"Error opening the file {filepath}. /nError: {str(e)}")
+        error_opening_file()
+
+    return drinks
 
 
-def read_data_from_files():
-    read_drinks_from_file()
-    read_people_from_file()
+def write_drinks(drinks, filepath):
+    try:
+        with open(filepath, "w") as drinks_file:
+            for drink in drinks:
+                drinks_file.write(f"{drink}\n")
+    except FileNotFoundError as filenotfound:
+        print(
+            f"Could no open the file {filepath}. /nError: {str(filenotfound)}")
+    except Exception as e:
+        print(
+            f"Error opening the file {filepath}. /nError: {str(e)}")
 
 
-def write_new_drink(drink):
-    f = open("data/drinks.txt", "a")
-    f.write(f"{drink}\n")
-    f.close()
-
-
-def write_new_person(person: Person):
-    f = open("data/people.txt", "a")
-    f.write(f"{person.name}:{person.favourite_drink}\n")
-    f.close()
-
-
-# read_people_from_file()
-# printer_aux.print_users()
-# read_drinks_from_file()
-# write_new_drink("Gin")
-# write_new_person(Person("Henry", "Coffee"))
+def write_people(people, filepath):
+    try:
+        with open(filepath, "w") as people_file:
+            for person in people:
+                people_file.write(f"{person.name}:{person.favourite_drink}\n")
+    except FileNotFoundError as filenotfound:
+        print(
+            f"Could no open the file {filepath}. /nError: {str(filenotfound)}")
+    except Exception as e:
+        print(
+            f"Error opening the file {filepath}. /nError: {str(e)}")
