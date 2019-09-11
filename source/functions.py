@@ -7,6 +7,13 @@ import file_functions
 
 
 def ask_boolean(text):
+    """
+    Auxiliary function to do a simple question to get YES or NO
+    +Parameters:
+        - text: Message shown to request information
+
+    Returns a boolean in function of the text getted
+    """
     error = True
     res = False
     while error:
@@ -55,6 +62,28 @@ def ask_number(text, mininum, maximum):
     return res
 
 
+def ask_unique_name(saved_list, text):
+    """
+    Check if the new element's of the list is not in the list
+        +Parameters:
+        - saved_list: List of all saved elements 
+        - text: Message to show to ask the name
+    Return True if the name is repeated
+    """
+    error = True
+    name = None
+    while error:
+        name = input(text).strip()
+        if len(name) != 0:
+            if any(x.name.upper() == name.upper() for x in saved_list):
+                print(texts.DUPLICATE_NAME)
+            else:
+                error = False
+        else:
+            error = False
+    return name
+
+
 def add_drink(drinks):
     """
     Auxiliary function to ask and add a new drink, in cache and write in the file.
@@ -62,7 +91,7 @@ def add_drink(drinks):
         - drinks: list of drinks
     """
 
-    drink = input(texts.DRINK_NAME)
+    drink = ask_unique_name(drinks, texts.DRINK_NAME)
     if len(drink) != 0:
         drinks.append(Drink(drink))
 
@@ -70,15 +99,15 @@ def add_drink(drinks):
 def create_new_person(people, drinks):
     """
     Requests by console the necessary information to create a new person,
-    which are, name and favourite drink. Finaly save this new person in
-    cache and write in the people file.
+    which are, name and favourite drink. Checks if this user already exists. 
+    And finaly save this new person in cache and write in the people file.
     + Parameters:
         - people: list of people
         - drinks: list of drinks
     """
 
     drink = None
-    name = input(texts.ENTER_NAME)
+    name = ask_unique_name(people, texts.ENTER_NAME)
     if len(name) != 0:
         add_drink = ask_boolean(texts.QUESTION_ADD_DRINK)
         if add_drink:
@@ -168,3 +197,25 @@ def goodbye(people, drinks, people_path, drink_path):
         file_functions.write_people(people, people_path)
         print(texts.ALL_SAVED)
     print(texts.GOODBYE)
+
+
+def create_round(people, drinks):
+    """
+    Function to create a new round, asking for what people want some drink]
+    and what drink (Asking first if they want them favourite drink)
+    + Parameters:
+        - people: list of people
+        - drinks: list of drinks
+    """
+    pass
+    if ask_boolean(texts.ROUND_FAVOURITE_DRINKS):
+        # TODO Round of the favourites
+        pass
+    elif ask_boolean(texts.ALL_PEOPLE_WANT_DRINKS):
+        # TODO Round with all people
+        pass
+    else:
+        pass
+        # TODO Ask what people want a drink
+        # TODO Round with the new list of people
+        # TODO Ask if the people want their favorite drink

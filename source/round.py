@@ -3,12 +3,14 @@ from person import Person
 from drink import Drink
 
 from order import Order
+import datetime
 
 
 class Round:
 
     def __init__(self):
         self.orders = []
+        self.date = datetime.datetime.now()
 
     def add_order(self, person: Person, drink: Drink):
         self.orders.append(Order(person, drink))

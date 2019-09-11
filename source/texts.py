@@ -21,6 +21,9 @@ ENTER_PERSON_ID = 'Enter the person ID please (0 to abort): '
 FAVOURITE_DRINK_UPDATED = 'Favourite drink updated. =)'
 WANT_TO_SAVE = 'Do you want to save all your changes? (y/N): '
 ALL_SAVED = "\n\tALL DATA SAVED!!"
+DUPLICATE_NAME = "Duplicate name, please retry:"
+ROUND_FAVOURITE_DRINKS = "Do you want to place an order for all your classmates with their favorite drinks? (y/N): "
+ALL_PEOPLE_WANT_DRINKS = "Everybody wants drinks? (y/N): "
 
 GOODBYE = "\n\tGOODBYE!!\n\n"
 
@@ -41,7 +44,8 @@ OPTIONS = """
         [4] Add drink
         [5] Add people
         [6] Set favourite drink
-        [7] Help
+        [7] Create a round
+        [8] Help
         [0] Exit
 
     """
