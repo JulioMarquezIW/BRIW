@@ -4,7 +4,7 @@ from drink import Drink
 
 class Person:
 
-    def __init__(self, name, favourite_drink: Drink):
+    def __init__(self, name, favourite_drink: Drink = None):
         self.name = name
         self.favourite_drink = favourite_drink
 
