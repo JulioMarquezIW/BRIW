@@ -1,0 +1,2 @@
+19-09-13 11:41:35;Tammara,Water;Shelia,Coffee;Allison,Beer;Zola,Wine;Kendrick,Coffee;Ethan,Water;Gracia,Tea;
+19-09-13 11:41:35;Tammara,Coffee;Shelia,Beer;Zola,Wine;Kendrick,Tea;Ethan,Juice;Gracia,Coffee;

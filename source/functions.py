@@ -1,9 +1,12 @@
 
 from drink import Drink
 from person import Person
+from brew_round import Round
+from order import Order
 import printer_aux
 import texts
 import file_functions
+from os import system
 
 
 def ask_boolean(text):
@@ -62,11 +65,39 @@ def ask_number(text, mininum, maximum):
     return res
 
 
+def ask_list_of_numbers(text, mininum, maximum):
+    """
+    Auxiliary function to request a list of numbers, checking that all of them al numbers.
+    +Parameters:
+        - text: Message shown to request information
+        - mininum: Minimum number allow
+        - maximum: Maximum number allow
+
+    Returns the list of numbers
+    """
+
+    numbers = []
+
+    temp_list = input(text).strip().split(',')
+    for element in temp_list:
+        try:
+            num = int(element)
+            if num > maximum or num < mininum:
+                print(f"{element} is out of the range. Value omitted.")
+            else:
+                numbers.append(num)
+
+        except ValueError:
+            print(f"{element} is not a number. Value omitted.")
+
+    return numbers
+
+
 def ask_unique_name(saved_list, text):
     """
     Check if the new element's of the list is not in the list
         +Parameters:
-        - saved_list: List of all saved elements 
+        - saved_list: List of all saved elements
         - text: Message to show to ask the name
     Return True if the name is repeated
     """
@@ -96,10 +127,21 @@ def add_drink(drinks):
         drinks.append(Drink(drink))
 
 
+def ask_drink_in_list(drinks, text):
+    """
+    Show the list of the drinks and ask for one id of them
+    + Parameters:
+        - drinks: list of drinks
+    """
+    printer_aux.print_list(texts.DRINKS, drinks)
+    drink_id = ask_number(text, 0, len(drinks))
+    return drink_id
+
+
 def create_new_person(people, drinks):
     """
     Requests by console the necessary information to create a new person,
-    which are, name and favourite drink. Checks if this user already exists. 
+    which are, name and favourite drink. Checks if this user already exists.
     And finaly save this new person in cache and write in the people file.
     + Parameters:
         - people: list of people
@@ -111,8 +153,7 @@ def create_new_person(people, drinks):
     if len(name) != 0:
         add_drink = ask_boolean(texts.QUESTION_ADD_DRINK)
         if add_drink:
-            printer_aux.print_list(texts.DRINKS, drinks)
-            drink_id = ask_number(texts.ENTER_DRINK_ID, 0, len(drinks))
+            drink_id = ask_drink_in_list(drinks, texts.ENTER_DRINK_ID)
             if drink_id != 0:
                 drink = drinks[drink_id-1]
 
@@ -183,7 +224,7 @@ def set_favourite_drink(people, drinks):
     return people
 
 
-def goodbye(people, drinks, people_path, drink_path):
+def goodbye(people, drinks, rounds, people_path, drink_path, round_path):
     """
     Function that is always executed when exiting the program
     + Parameters:
@@ -195,8 +236,51 @@ def goodbye(people, drinks, people_path, drink_path):
     if ask_boolean(texts.WANT_TO_SAVE):
         file_functions.write_drinks(drinks, drink_path)
         file_functions.write_people(people, people_path)
+        file_functions.write_rounds(rounds, round_path)
         print(texts.ALL_SAVED)
     print(texts.GOODBYE)
+
+
+def ask_drinks_for_pepole(new_round, people, drinks):
+    """
+    Ask for the drink that each person wants from the list of people passed as parameter.
+    + Parameters:
+        - new_round: round that is being created 
+        - people: list of people who wants a drink
+        - drinks: list of drinks
+    Returns the received round filled with the orders that have been correctly entered.
+    """
+    for person in people:
+        system('clear')
+        drink_id = ask_drink_in_list(
+            drinks, f"Enter the drink ID for {person.name} \n His favourite drink is {person.favourite_drink.name}. (0) if this person doesn't want a drink: ")
+        if drink_id != 0:
+            new_round.add_order(person, drinks[drink_id-1])
+    return new_round
+
+
+def ask_sublist_people(people, drinks, new_round):
+    """
+    Show the list of the people and ask what people want in a new list.
+    + Parameters:
+        - people: list of people
+        - text: text to show in console
+    Return a new people list
+    """
+
+    system('clear')
+    printer_aux.print_list(texts.PEOPLE, people)
+    new_people_list = []
+    identifiers = ask_list_of_numbers(texts.ASK_PEOPLE_IDS, 1, len(people))
+
+    for p_id in identifiers:
+        new_people_list.append(people[p_id-1])
+
+    # Print people who want a drink
+    printer_aux.print_list(texts.PEOPLE_WHO_WANT_DRINK, new_people_list)
+    printer_aux.enter_to_continue()
+
+    return ask_drinks_for_pepole(new_round, new_people_list, drinks)
 
 
 def create_round(people, drinks):
@@ -207,15 +291,15 @@ def create_round(people, drinks):
         - people: list of people
         - drinks: list of drinks
     """
-    pass
+
+    new_round = Round()
     if ask_boolean(texts.ROUND_FAVOURITE_DRINKS):
-        # TODO Round of the favourites
-        pass
+        for person in people:
+            new_round.add_order(person, person.favourite_drink)
     elif ask_boolean(texts.ALL_PEOPLE_WANT_DRINKS):
-        # TODO Round with all people
-        pass
+        new_round = ask_drinks_for_pepole(new_round, people, drinks)
     else:
-        pass
-        # TODO Ask what people want a drink
-        # TODO Round with the new list of people
-        # TODO Ask if the people want their favorite drink
+        new_round = ask_sublist_people(people, drinks, new_round)
+
+    new_round.print_round()
+    return new_round

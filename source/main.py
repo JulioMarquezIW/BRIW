@@ -6,14 +6,17 @@ import texts
 
 people = []
 drinks = []
+rounds = []
 
 # Default filepaths
 drinks_filepath = "data/drinks.txt"
 people_filepath = "data/people.txt"
+rounds_filepath = "data/rounds.txt"
 
 # Read data from files
 people = file_functions.read_people_from_file(people_filepath)
 drinks = file_functions.read_drinks_from_file(drinks_filepath)
+
 
 # Check arguments
 functions.check_args(sys.argv, people, drinks)
@@ -50,13 +53,14 @@ while True:
         people = functions.set_favourite_drink(people, drinks)
     elif op == 7:
         # Create a new round
-        print(texts.help_message)
+        rounds.append(functions.create_round(people, drinks))
     elif op == 8:
         # HELP MESSAGE
         print(texts.help_message)
     elif op == 0 or op == None:
         # Just exit the program
-        functions.goodbye(people, drinks, people_filepath, drinks_filepath)
+        functions.goodbye(people, drinks, rounds,
+                          people_filepath, drinks_filepath, rounds_filepath)
         exit()
     else:
         # If the number you entered is not in the options, ask for it again

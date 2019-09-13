@@ -24,6 +24,8 @@ ALL_SAVED = "\n\tALL DATA SAVED!!"
 DUPLICATE_NAME = "Duplicate name, please retry:"
 ROUND_FAVOURITE_DRINKS = "Do you want to place an order for all your classmates with their favorite drinks? (y/N): "
 ALL_PEOPLE_WANT_DRINKS = "Everybody wants drinks? (y/N): "
+ASK_PEOPLE_IDS = "Add the ID of a list of ID separated by commas of the persons who want a drink (just press enter to abort): "
+PEOPLE_WHO_WANT_DRINK = "People who want drinks"
 
 GOODBYE = "\n\tGOODBYE!!\n\n"
 
