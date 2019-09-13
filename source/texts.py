@@ -7,6 +7,7 @@ PRESS_ENTER = 'Please press enter to continue...'
 PEOPLE = 'people'
 DRINK = 'drink'
 DRINKS = 'drinks'
+ROUNDS = 'rounds'
 INCORRECT_NUMBER_ARGUMENTS = 'Incorrect number of arguments'
 ENTRY_INTEGER = 'Please entry an integer.'
 DRINK_NAME = 'Enter the drink name please, (Just press enter to abort): '
@@ -26,6 +27,8 @@ ROUND_FAVOURITE_DRINKS = "Do you want to place an order for all your classmates 
 ALL_PEOPLE_WANT_DRINKS = "Everybody wants drinks? (y/N): "
 ASK_PEOPLE_IDS = "Add the ID of a list of ID separated by commas of the persons who want a drink (just press enter to abort): "
 PEOPLE_WHO_WANT_DRINK = "People who want drinks"
+ROUND_DATE = "Round date : "
+NO_ROUNDS = "No rounds saved"
 
 GOODBYE = "\n\tGOODBYE!!\n\n"
 
@@ -47,7 +50,8 @@ OPTIONS = """
         [5] Add people
         [6] Set favourite drink
         [7] Create a round
-        [8] Help
+        [8] Print rounds
+        [9] Help
         [0] Exit
 
     """

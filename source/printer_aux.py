@@ -36,3 +36,22 @@ def print_users_preferences(people):
 
 def enter_to_continue():
     input(texts.PRESS_ENTER)
+
+
+def print_rounds(rounds):
+    print_divider()
+    print('| ' + texts.ROUNDS.upper() + ' | ')
+    print_divider()
+    if len(rounds) != 0:
+        for r in rounds:
+            print('| ' + texts.ROUND_DATE.upper() +
+                  r.date.strftime("%m/%d/%Y, %H:%M:%S") + ' | ')
+            print('| ' + texts.PEOPLE.upper() + ' | ' + texts.DRINKS.upper())
+            for idx, r in enumerate(r.orders):
+                print(
+                    f"| {idx+1}   | {r.person.name} | {r.drink.name}")
+            print_divider()
+            print("\n")
+        print_divider()
+    else:
+        print('| '+texts.NO_ROUNDS.upper() + ' | \n')

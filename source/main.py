@@ -26,7 +26,7 @@ while True:
     printer_aux.print_options()
 
     minimumOptionNumber = 0
-    maximumOptionNumber = 8
+    maximumOptionNumber = 9
 
     # Ask for a value, which must be a number,
     # and repeat the question until the user enters a number.
@@ -53,8 +53,13 @@ while True:
         people = functions.set_favourite_drink(people, drinks)
     elif op == 7:
         # Create a new round
-        rounds.append(functions.create_round(people, drinks))
+        new_round = functions.create_round(people, drinks)
+        if len(new_round.orders) != 0:
+            rounds.append(new_round)
     elif op == 8:
+        # Print rounds
+        printer_aux.print_rounds(rounds)
+    elif op == 9:
         # HELP MESSAGE
         print(texts.help_message)
     elif op == 0 or op == None:
