@@ -30,6 +30,8 @@ PEOPLE_WHO_WANT_DRINK = "People who want drinks"
 ROUND_DATE = "Round date : "
 NO_ROUNDS = "No rounds saved"
 
+DATE_FORMAT = "%m/%d/%Y, %H:%M:%S"
+
 GOODBYE = "\n\tGOODBYE!!\n\n"
 
 AVAILABLE_ARGUMENTS_OPTIONS = """

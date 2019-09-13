@@ -16,7 +16,7 @@ rounds_filepath = "data/rounds.txt"
 # Read data from files
 people = file_functions.read_people_from_file(people_filepath)
 drinks = file_functions.read_drinks_from_file(drinks_filepath)
-
+rounds = file_functions.read_rounds(rounds_filepath)
 
 # Check arguments
 functions.check_args(sys.argv, people, drinks)

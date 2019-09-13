@@ -1,5 +1,7 @@
 
 from person import Person
+from brew_round import Round
+from order import Order
 from drink import Drink
 import printer_aux
 import texts
@@ -52,20 +54,27 @@ def read_drinks_from_file(filepath):
 
 
 def read_rounds(filepath):
-    return []
-    # try:
-    #     with open(filepath, "r") as rounds_file:
-    #         for line in rounds_file.readlines():
-    #             orders = line.split(";")
-    #             date = datetime.strptime(orders[0], "%y-%m-%d %H:%M:%S")
+    rounds = []
+    try:
+        with open(filepath, "r") as rounds_file:
+            for line in rounds_file.readlines():
+                orders = line.strip().split(";")
+                date = datetime.strptime(orders[0], texts.DATE_FORMAT)
+                round_orders = []
+                for order in orders[1:]:
+                    _order = order.split(",")
+                    round_orders.append(
+                        Order(Person(_order[0]), Drink(_order[1])))
 
-    #             for order in orders[1:]:
-    #                 _order = order.split(",")
-    #                 p_name = _order[0]
-    #                 d_name = _order[1]
+                rounds.append(Round(round_orders, date))
+    except FileNotFoundError as filenotfound:
+        print(
+            f"Could no open the file {filepath}. /nError: {str(filenotfound)}")
+    except Exception as e:
+        print(
+            f"Error opening the file {filepath}. /nError: {str(e)}")
 
-    #                 person = Person(p_name)
-    #                 drink = Drink(d_name)
+    return rounds
 
 
 def write_drinks(drinks, filepath):
@@ -104,9 +113,9 @@ def write_rounds(rounds, filepath):
             for _round in rounds:
                 row_to_write = ""
                 # semi colon (;) used for seperation
-                row_to_write += _round.date.strftime("%y-%m-%d %H:%M:%S") + ";"
+                row_to_write += _round.date.strftime(texts.DATE_FORMAT)
                 for order in _round.orders:
-                    row_to_write += f"{order.person.name},{order.drink.name};"
+                    row_to_write += f";{order.person.name},{order.drink.name}"
 
                 row_to_write += "\n"
                 rounds_file.write(row_to_write)
