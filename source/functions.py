@@ -252,8 +252,12 @@ def ask_drinks_for_pepole(new_round, people, drinks):
     """
     for person in people:
         system('clear')
-        drink_id = ask_drink_in_list(
-            drinks, f"Enter the drink ID for {person.name} \n His favourite drink is {person.favourite_drink.name}. (0) if this person doesn't want a drink: ")
+        text = ""
+        if person.favourite_drink:
+            text = f"Enter the drink ID for {person.name} \n His favourite drink is {person.favourite_drink.name}. (0) if this person doesn't want a drink: "
+        else:
+            text = f"Enter the drink ID for {person.name}, (0) if this person doesn't want a drink: "
+        drink_id = ask_drink_in_list(drinks, text)
         if drink_id != 0:
             new_round.add_order(person, drinks[drink_id-1])
     return new_round
@@ -293,9 +297,20 @@ def create_round(people, drinks):
     """
 
     new_round = Round()
+    people_without_favorite = []
     if ask_boolean(texts.ROUND_FAVOURITE_DRINKS):
         for person in people:
-            new_round.add_order(person, person.favourite_drink)
+            if person.favourite_drink:
+                new_round.add_order(person, person.favourite_drink)
+            else:
+                people_without_favorite.append(person)
+        if people_without_favorite:
+            system('clear')
+            print(texts.PEOPLE_WITHOUT_FAVOURITE_DRINK)
+            printer_aux.print_list(texts.PEOPLE, people_without_favorite)
+            printer_aux.enter_to_continue()
+            new_round = ask_drinks_for_pepole(
+                new_round, people_without_favorite, drinks)
     elif ask_boolean(texts.ALL_PEOPLE_WANT_DRINKS):
         new_round = ask_drinks_for_pepole(new_round, people, drinks)
     else:
