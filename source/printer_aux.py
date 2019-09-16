@@ -1,5 +1,6 @@
 from os import system
 import texts
+import functions
 
 
 def print_divider():
@@ -34,24 +35,38 @@ def print_users_preferences(people):
     print('\n')
 
 
-def enter_to_continue():
+def enter_to_continue(text=texts.PRESS_ENTER):
     input(texts.PRESS_ENTER)
 
 
 def print_rounds(rounds):
+    system('clear')
     print_divider()
     print('| ' + texts.ROUNDS.upper() + ' | ')
     print_divider()
     if len(rounds) != 0:
-        for r in rounds:
+        rounds.reverse()
+        i = 0
+        for idx, r in enumerate(rounds):
+            print('| ' + texts.ROUND_ID.upper() +
+                  " : "+str(idx) + ' | ')
             print('| ' + texts.ROUND_DATE.upper() +
                   r.date.strftime(texts.DATE_FORMAT) + ' | ')
+            print('| ' + texts.BREWER.upper() + " -> " +
+                  r.brewer.name + ' | ')
             print('| ' + texts.PEOPLE.upper() + ' | ' + texts.DRINKS.upper())
             for idx, r in enumerate(r.orders):
                 print(
                     f"| {idx+1}   | {r.person.name} | {r.drink.name}")
             print_divider()
             print("\n")
+            i += 1
+            if i % 2 == 0:
+                if not functions.ask_boolean(texts.MORE_ROUNDS):
+                    return
+                else:
+                    system('clear')
+                    print_divider()
         print_divider()
     else:
         print('| '+texts.NO_ROUNDS.upper() + ' | \n')

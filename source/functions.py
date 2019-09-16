@@ -65,6 +65,11 @@ def ask_number(text, mininum, maximum):
     return res
 
 
+def ask_person_id(text, people):
+    printer_aux.print_list(texts.PEOPLE, people)
+    return ask_number(text, 0, len(people))
+
+
 def ask_list_of_numbers(text, mininum, maximum):
     """
     Auxiliary function to request a list of numbers, checking that all of them al numbers.
@@ -212,8 +217,7 @@ def set_favourite_drink(people, drinks):
     """
 
     # Get Person ID
-    printer_aux.print_list(texts.PEOPLE, people)
-    person_id = ask_number(texts.ENTER_PERSON_ID, 0, len(people))
+    person_id = ask_person_id(texts.ENTER_PERSON_ID, people)
     if person_id != 0:
         printer_aux.print_list(texts.DRINKS, drinks)
         drink_id = ask_number(texts.ENTER_DRINK_ID, 0, len(drinks))
@@ -252,8 +256,12 @@ def ask_drinks_for_pepole(new_round, people, drinks):
     """
     for person in people:
         system('clear')
-        drink_id = ask_drink_in_list(
-            drinks, f"Enter the drink ID for {person.name} \n His favourite drink is {person.favourite_drink.name}. (0) if this person doesn't want a drink: ")
+        text = ""
+        if person.favourite_drink:
+            text = f"Enter the drink ID for {person.name} \n His favourite drink is {person.favourite_drink.name}. (0) if this person doesn't want a drink: "
+        else:
+            text = f"Enter the drink ID for {person.name}, (0) if this person doesn't want a drink: "
+        drink_id = ask_drink_in_list(drinks, text)
         if drink_id != 0:
             new_round.add_order(person, drinks[drink_id-1])
     return new_round
@@ -291,15 +299,32 @@ def create_round(people, drinks):
         - people: list of people
         - drinks: list of drinks
     """
-
+    system('clear')
     new_round = Round()
-    if ask_boolean(texts.ROUND_FAVOURITE_DRINKS):
-        for person in people:
-            new_round.add_order(person, person.favourite_drink)
-    elif ask_boolean(texts.ALL_PEOPLE_WANT_DRINKS):
-        new_round = ask_drinks_for_pepole(new_round, people, drinks)
-    else:
-        new_round = ask_sublist_people(people, drinks, new_round)
+
+    brewer_id = ask_person_id(texts.ASK_BREWER, people)
+
+    if brewer_id != 0:
+        new_round.brewer = people[brewer_id-1]
+
+        people_without_favorite = []
+        if ask_boolean(texts.ROUND_FAVOURITE_DRINKS):
+            for person in people:
+                if person.favourite_drink:
+                    new_round.add_order(person, person.favourite_drink)
+                else:
+                    people_without_favorite.append(person)
+            if people_without_favorite:
+                system('clear')
+                print(texts.PEOPLE_WITHOUT_FAVOURITE_DRINK)
+                printer_aux.print_list(texts.PEOPLE, people_without_favorite)
+                printer_aux.enter_to_continue()
+                new_round = ask_drinks_for_pepole(
+                    new_round, people_without_favorite, drinks)
+        elif ask_boolean(texts.ALL_PEOPLE_WANT_DRINKS):
+            new_round = ask_drinks_for_pepole(new_round, people, drinks)
+        else:
+            new_round = ask_sublist_people(people, drinks, new_round)
 
     new_round.print_round()
     return new_round
