@@ -8,9 +8,10 @@ import datetime
 
 class Round:
 
-    def __init__(self, orders=[], date=datetime.datetime.now()):
+    def __init__(self, orders=[], date=datetime.datetime.now(), brewer: Person = None):
         self.orders = orders
         self.date = date
+        self.brewer = brewer
 
     def add_order(self, person: Person, drink: Drink):
         self.orders.append(Order(person, drink))

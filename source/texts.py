@@ -29,6 +29,11 @@ ASK_PEOPLE_IDS = "Add the ID of a list of ID separated by commas of the persons 
 PEOPLE_WHO_WANT_DRINK = "People who want drinks"
 ROUND_DATE = "Round date : "
 NO_ROUNDS = "No rounds saved"
+PEOPLE_WITHOUT_FAVOURITE_DRINK = "The next list of people doesn't have a favorite drink. Please select a drink for each one."
+ASK_BREWER = "Who's going to prepare the round? Please enter the id, just press enter to abort: "
+BREWER = "Brewer"
+MORE_ROUNDS = "Show more rounds?(y/N):  "
+ROUND_ID = "Round id"
 
 DATE_FORMAT = "%m/%d/%Y, %H:%M:%S"
 
