@@ -30,6 +30,8 @@ PEOPLE_WHO_WANT_DRINK = "People who want drinks"
 ROUND_DATE = "Round date : "
 NO_ROUNDS = "No rounds saved"
 PEOPLE_WITHOUT_FAVOURITE_DRINK = "The next list of people doesn't have a favorite drink. Please select a drink for each one."
+ASK_BREWER = "Who's going to prepare the round? Please enter the id, just press enter to abort: "
+BREWER = "Brewer"
 
 DATE_FORMAT = "%m/%d/%Y, %H:%M:%S"
 

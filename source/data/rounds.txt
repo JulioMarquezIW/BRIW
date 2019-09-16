@@ -1,5 +1,1 @@
-09/13/2019, 13:52:38;Tammara,Water;Shelia,Coffee;Allison,Beer;Zola,Wine;Kendrick,Coffee;Ethan,Water;Gracia,Tea
-09/13/2019, 13:59:28;Tammara,Water;Shelia,Coffee;Allison,Beer;Zola,Wine;Kendrick,Coffee;Ethan,Water;Gracia,Tea
-09/16/2019, 09:50:19;Tammara,Water;Shelia,Coffee;Allison,Beer;Zola,Wine;Kendrick,Coffee;Ethan,Water;Gracia,Tea;Tammara,Water;Shelia,Coffee;Allison,Beer;Zola,Wine;Kendrick,Coffee;Ethan,Water;Gracia,Tea;Adrian,Juice
-09/16/2019, 09:50:19;Tammara,Water;Shelia,Coffee;Allison,Beer;Zola,Wine;Kendrick,Coffee;Ethan,Water;Gracia,Tea;Tammara,Water;Shelia,Coffee;Allison,Beer;Zola,Wine;Kendrick,Coffee;Ethan,Water;Gracia,Tea;Adrian,Juice
-09/16/2019, 12:05:47;Tammara,Water;Shelia,Coffee;Allison,Beer;Zola,Wine;Kendrick,Coffee;Ethan,Water;Gracia,Tea;Adrian,Beer
+09/16/2019, 12:35:29;Ethan;Tammara,Water;Shelia,Coffee;Allison,Beer;Zola,Wine;Kendrick,Coffee;Ethan,Water;Gracia,Tea;Adrian,Coke

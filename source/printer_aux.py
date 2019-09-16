@@ -46,6 +46,8 @@ def print_rounds(rounds):
         for r in rounds:
             print('| ' + texts.ROUND_DATE.upper() +
                   r.date.strftime(texts.DATE_FORMAT) + ' | ')
+            print('| ' + texts.BREWER.upper() + " -> " +
+                  r.brewer.name + ' | ')
             print('| ' + texts.PEOPLE.upper() + ' | ' + texts.DRINKS.upper())
             for idx, r in enumerate(r.orders):
                 print(

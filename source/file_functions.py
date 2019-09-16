@@ -60,13 +60,14 @@ def read_rounds(filepath):
             for line in rounds_file.readlines():
                 orders = line.strip().split(";")
                 date = datetime.strptime(orders[0], texts.DATE_FORMAT)
+                brewer = orders[1]
                 round_orders = []
-                for order in orders[1:]:
+                for order in orders[2:]:
                     _order = order.split(",")
                     round_orders.append(
                         Order(Person(_order[0]), Drink(_order[1])))
 
-                rounds.append(Round(round_orders, date))
+                rounds.append(Round(round_orders, date, Person(brewer)))
     except FileNotFoundError as filenotfound:
         print(
             f"Could no open the file {filepath}. /nError: {str(filenotfound)}")
@@ -108,17 +109,23 @@ def write_people(people, filepath):
 
 
 def write_rounds(rounds, filepath):
+
+    rows = []
+    for _round in rounds:
+        row_to_write = ""
+        # semi colon (;) used for seperation
+        row_to_write += _round.date.strftime(texts.DATE_FORMAT)
+        row_to_write += ";" + _round.brewer.name
+        for order in _round.orders:
+            row_to_write += f";{order.person.name},{order.drink.name}"
+
+        row_to_write += "\n"
+        rows.append(row_to_write)
+
     try:
         with open(filepath, "w") as rounds_file:
-            for _round in rounds:
-                row_to_write = ""
-                # semi colon (;) used for seperation
-                row_to_write += _round.date.strftime(texts.DATE_FORMAT)
-                for order in _round.orders:
-                    row_to_write += f";{order.person.name},{order.drink.name}"
-
-                row_to_write += "\n"
-                rounds_file.write(row_to_write)
+            for row in rows:
+                rounds_file.write(row)
     except FileNotFoundError as filenotfound:
         print(
             f"Could no open the file {filepath}. /nError: {str(filenotfound)}")
