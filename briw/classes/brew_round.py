@@ -1,8 +1,7 @@
 
-from person import Person
-from drink import Drink
-
-from order import Order
+from briw.classes.person import Person
+from briw.classes.drink import Drink
+from briw.classes.order import Order
 import datetime
 
 

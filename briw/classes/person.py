@@ -1,5 +1,5 @@
 
-from drink import Drink
+from briw.classes.drink import Drink
 
 
 class Person:

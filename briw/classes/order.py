@@ -1,7 +1,7 @@
 
 
-from person import Person
-from drink import Drink
+from briw.classes.person import Person
+from briw.classes.drink import Drink
 
 
 class Order:

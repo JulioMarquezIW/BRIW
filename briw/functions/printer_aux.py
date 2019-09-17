@@ -1,6 +1,6 @@
 from os import system
-import texts
-import functions
+from briw.data import texts
+from briw.functions import functions
 
 
 def print_divider():

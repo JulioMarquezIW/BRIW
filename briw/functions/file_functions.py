@@ -1,10 +1,10 @@
 
-from person import Person
-from brew_round import Round
-from order import Order
-from drink import Drink
-import printer_aux
-import texts
+from briw.classes.person import Person
+from briw.classes.brew_round import Round
+from briw.classes.order import Order
+from briw.classes.drink import Drink
+from briw.functions import printer_aux
+from briw.data import texts
 from datetime import datetime
 
 
