@@ -45,10 +45,10 @@ def run():
             printer_aux.print_users_preferences(people)
         elif op == 4:
             # Call the function to follow the steps to add a new drink
-            functions.add_drink(drinks)
+            drinks = functions.add_drink(drinks)
         elif op == 5:
             # Call the function to follow the steps to add a new person
-            functions.create_new_person(people, drinks)
+            people = functions.create_new_person(people, drinks)
         elif op == 6:
             # Set favourite drink
             people = functions.set_favourite_drink(people, drinks)

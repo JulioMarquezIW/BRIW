@@ -21,7 +21,7 @@ def ask_boolean(text):
     res = False
     while error:
         try:
-            inp = input(text)
+            inp = str(input(text))
             if inp.upper() == "Y":
                 res = True
                 error = False
@@ -130,6 +130,7 @@ def add_drink(drinks):
     drink = ask_unique_name(drinks, texts.DRINK_NAME)
     if len(drink) != 0:
         drinks.append(Drink(drink))
+    return drinks
 
 
 def ask_drink_in_list(drinks, text):
@@ -164,6 +165,7 @@ def create_new_person(people, drinks):
 
         p = Person(name, drink)
         people.append(p)
+    return people
 
 
 def args_options(arg, people, drinks):
