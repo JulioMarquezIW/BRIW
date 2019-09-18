@@ -71,16 +71,18 @@ def read_rounds(filepath):
     except FileNotFoundError as filenotfound:
         print(
             f"Could no open the file {filepath}. /nError: {str(filenotfound)}")
+        error_opening_file()
     except Exception as e:
         print(
             f"Error opening the file {filepath}. /nError: {str(e)}")
+        error_opening_file()
 
     return rounds
 
 
 def write_drinks(drinks, filepath):
     try:
-        with open(filepath, "w") as drinks_file:
+        with open(filepath, "w+") as drinks_file:
             for drink in drinks:
                 drinks_file.write(f"{drink.name}\n")
     except FileNotFoundError as filenotfound:
@@ -93,7 +95,7 @@ def write_drinks(drinks, filepath):
 
 def write_people(people, filepath):
     try:
-        with open(filepath, "w") as people_file:
+        with open(filepath, "w+") as people_file:
             for person in people:
                 drink = "None"
                 if person.favourite_drink:
@@ -123,7 +125,7 @@ def write_rounds(rounds, filepath):
         rows.append(row_to_write)
 
     try:
-        with open(filepath, "w") as rounds_file:
+        with open(filepath, "w+") as rounds_file:
             for row in rows:
                 rounds_file.write(row)
     except FileNotFoundError as filenotfound:
