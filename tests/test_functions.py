@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import patch
 
+
 from briw.functions import functions
 from briw.classes.person import Person
 from briw.classes.drink import Drink
