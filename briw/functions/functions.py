@@ -286,7 +286,6 @@ def ask_sublist_people(people, drinks, new_round):
     for p_id in identifiers:
         new_people_list.append(people[p_id-1])
 
-    # Print people who want a drink
     printer_aux.print_list(texts.PEOPLE_WHO_WANT_DRINK, new_people_list)
     printer_aux.enter_to_continue()
 
@@ -303,6 +302,7 @@ def create_round(people, drinks):
     """
     system('clear')
     new_round = Round()
+    new_round.orders = []
 
     brewer_id = ask_person_id(texts.ASK_BREWER, people)
 
