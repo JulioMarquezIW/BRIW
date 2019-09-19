@@ -62,7 +62,7 @@ def run():
             printer_aux.print_rounds(rounds)
         elif op == 9:
             # HELP MESSAGE
-            print(texts.help_message)
+            print(texts.HELP_MESSAGE)
         elif op == 0 or op == None:
             # Just exit the program
             functions.goodbye(people, drinks, rounds,
