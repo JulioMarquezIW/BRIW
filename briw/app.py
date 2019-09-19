@@ -27,7 +27,7 @@ def run():
         printer_aux.print_options()
 
         minimumOptionNumber = 0
-        maximumOptionNumber = 9
+        maximumOptionNumber = 10
 
         # Ask for a value, which must be a number,
         # and repeat the question until the user enters a number.
@@ -58,9 +58,12 @@ def run():
             if len(new_round.orders) != 0:
                 rounds.append(new_round)
         elif op == 8:
+            # Add order to round
+            pass
+        elif op == 9:
             # Print rounds
             printer_aux.print_rounds(rounds)
-        elif op == 9:
+        elif op == 10:
             # HELP MESSAGE
             print(texts.help_message)
         elif op == 0 or op == None:

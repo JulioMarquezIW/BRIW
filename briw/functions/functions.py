@@ -330,3 +330,16 @@ def create_round(people, drinks):
 
     new_round.print_round()
     return new_round
+
+
+def create_round_and_set_brewer():
+    pass
+
+
+def add_order_to_round():
+
+    # SHOW OPEN ROUNDS
+    # ASK SELECT ONE ROUND
+    #
+
+    pass
