@@ -10,3 +10,12 @@ def test():
 
     for user in users:
         print(user)
+
+
+def get_people_from_database():
+    users = []
+
+    db = Database(Config)
+    users = db.run_query("SELECT * FROM Person")
+
+    return users
