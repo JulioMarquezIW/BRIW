@@ -3,6 +3,7 @@ from briw.functions import functions
 from briw.functions import file_functions
 from briw.functions import printer_aux
 from briw.data import texts
+from briw.persistence import people_controller
 
 
 def run():
@@ -13,6 +14,10 @@ def run():
     drinks_filepath = "briw/resources/drinks.txt"
     people_filepath = "briw/resources/people.txt"
     rounds_filepath = "briw/resources/rounds.txt"
+
+    people_controller.test()
+
+    printer_aux.enter_to_continue()
 
     # Read data from files
     people = file_functions.read_people_from_file(people_filepath)
