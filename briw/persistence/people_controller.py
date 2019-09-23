@@ -1,6 +1,7 @@
 
 from briw.database.database import Database
 from briw.database.database import Config
+from briw.classes.person import Person
 
 
 def test():
@@ -16,6 +17,6 @@ def get_people_from_database():
     users = []
 
     db = Database(Config)
-    users = db.run_query("SELECT * FROM Person")
+    db_users = db.run_query("SELECT * FROM Person ")
 
     return users
