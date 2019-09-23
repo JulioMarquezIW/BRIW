@@ -39,7 +39,7 @@ class Database:
                 for row in result:
                     records.append(row)
                 cur.close()
-                return records
+                return result
         except pymysql.MySQLError as e:
             print(e)
         finally:

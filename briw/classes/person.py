@@ -4,7 +4,8 @@ from briw.classes.drink import Drink
 
 class Person:
 
-    def __init__(self, name, favourite_drink: Drink = None):
+    def __init__(self, name, favourite_drink: Drink = None, person_id=None):
+        self.person_id = person_id
         self.name = name
         self.favourite_drink = favourite_drink
 

@@ -15,12 +15,12 @@ def run():
     people_filepath = "briw/resources/people.txt"
     rounds_filepath = "briw/resources/rounds.txt"
 
-    people_controller.test()
+    people = people_controller.get_people_from_database()
 
     printer_aux.enter_to_continue()
 
     # Read data from files
-    people = file_functions.read_people_from_file(people_filepath)
+    # people = file_functions.read_people_from_file(people_filepath)
     drinks = file_functions.read_drinks_from_file(drinks_filepath)
     rounds = file_functions.read_rounds(rounds_filepath)
 
