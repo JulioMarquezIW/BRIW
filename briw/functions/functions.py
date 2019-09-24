@@ -7,7 +7,8 @@ from briw.functions import printer_aux
 from briw.data import texts
 from briw.functions import file_functions
 from os import system
-from briw.persistence import people_controller
+from briw.persistence import people_controller, drinks_controller
+from briw.database.database_execption import DatabaseError
 
 
 def ask_boolean(text):
@@ -128,9 +129,16 @@ def add_drink(drinks):
         - drinks: list of drinks
     """
 
-    drink = ask_unique_name(drinks, texts.DRINK_NAME)
-    if len(drink) != 0:
-        drinks.append(Drink(drink))
+    drink_name = ask_unique_name(drinks, texts.DRINK_NAME)
+    if len(drink_name) != 0:
+
+        try:
+            drink_saved = drinks_controller.save_new_drink_in_database(
+                Drink(drink_name))
+            drinks.append(drink_saved)
+        except DatabaseError:
+            print('Database error, new user will not be saved')
+
     return drinks
 
 
@@ -164,8 +172,12 @@ def create_new_person(people, drinks):
             if drink_id != 0:
                 drink = drinks[drink_id-1]
         p = Person(name, drink)
-        p = people_controller.save_new_user_in_database(p)
-        people.append(p)
+        try:
+            saved_person = people_controller.save_new_user_in_database(p)
+            people.append(saved_person)
+        except DatabaseError:
+            print('Database error, new user will not be saved')
+
     return people
 
 
