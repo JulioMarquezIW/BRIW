@@ -26,8 +26,6 @@ class Database:
                                             connect_timeout=5)
         except pymysql.MySQLError as e:
             print(e)
-        finally:
-            print('Connection opened successfully.')
 
     def run_query(self, query):
         try:
@@ -36,11 +34,15 @@ class Database:
                 records = []
                 print("QUERY => " + query)
                 cur.execute(query)
-                result = cur.fetchall()
-                for row in result:
-                    records.append(row)
+                splited_query = query.split(' ')
+                if splited_query[0].upper() == 'SELECT':
+                    result = cur.fetchall()
+                    for row in result:
+                        records.append(row)
+                elif splited_query[0].upper() == 'INSERT':
+                    records = cur.lastrowid
                 cur.close()
-                return result
+                return records
         except pymysql.MySQLError as e:
             print("Error connecting to database: " + str(e))
         finally:
