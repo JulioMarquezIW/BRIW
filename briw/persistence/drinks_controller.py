@@ -13,7 +13,7 @@ def get_drinks_from_database():
         """SELECT * FROM Drink""")
 
     for drink in db_drinks:
-        drinks.append(Drink(drink[1], drink[0]))
+        drinks.append(Drink(drink['name'], drink['drink_id']))
 
     return drinks
 

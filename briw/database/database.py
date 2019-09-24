@@ -30,9 +30,8 @@ class Database:
     def run_query(self, query):
         try:
             self.open_connection()
-            with self.conn.cursor() as cur:
+            with self.conn.cursor(pymysql.cursors.DictCursor) as cur:
                 records = []
-                print("QUERY => " + query)
                 cur.execute(query)
                 splited_query = query.split(' ')
                 if splited_query[0].upper() == 'SELECT':

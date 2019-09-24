@@ -11,11 +11,12 @@ def get_people_from_database():
     db = Database(Config)
 
     db_users = db.run_query(
-        """SELECT p.person_id, p.name as person_name, p.favorite_drink_id, d.name as drink_name 
-        FROM Person AS p INNER JOIN Drink as d ON p.favorite_drink_id = d.drink_id""")
+        """SELECT p.person_id, p.name as person_name, p.favourite_drink_id, d.name as drink_name 
+        FROM Person AS p INNER JOIN Drink as d ON p.favourite_drink_id = d.drink_id""")
 
     for user in db_users:
-        users.append(Person(user[1], Drink(user[2], user[3])))
+        users.append(Person(user['person_name'], Drink(
+            user['drink_name'], user['favourite_drink_id'])))
 
     return users
 

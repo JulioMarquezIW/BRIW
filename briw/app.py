@@ -3,25 +3,25 @@ from briw.functions import functions
 from briw.functions import file_functions
 from briw.functions import printer_aux
 from briw.data import texts
-from briw.persistence import people_controller
+from briw.persistence import people_controller, drinks_controller
 
 
 def run():
     people = []
     drinks = []
     rounds = []
+
     # Default filepaths
     drinks_filepath = "briw/resources/drinks.txt"
     people_filepath = "briw/resources/people.txt"
     rounds_filepath = "briw/resources/rounds.txt"
 
     people = people_controller.get_people_from_database()
-
-    printer_aux.enter_to_continue()
+    drinks = drinks_controller.get_drinks_from_database()
 
     # Read data from files
     # people = file_functions.read_people_from_file(people_filepath)
-    drinks = file_functions.read_drinks_from_file(drinks_filepath)
+    # drinks = file_functions.read_drinks_from_file(drinks_filepath)
     rounds = file_functions.read_rounds(rounds_filepath)
 
     # Check arguments
