@@ -16,7 +16,7 @@ def get_people_from_database():
 
     for user in db_users:
         users.append(Person(user['person_name'], Drink(
-            user['drink_name'], user['favourite_drink_id'])))
+            user['drink_name'], user['favourite_drink_id']), user['person_id']))
 
     return users
 
