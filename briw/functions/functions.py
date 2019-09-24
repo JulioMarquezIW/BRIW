@@ -7,6 +7,8 @@ from briw.functions import printer_aux
 from briw.data import texts
 from briw.functions import file_functions
 from os import system
+from briw.persistence import people_controller, drinks_controller
+from briw.database.database_execption import DatabaseError
 
 
 def ask_boolean(text):
@@ -127,9 +129,16 @@ def add_drink(drinks):
         - drinks: list of drinks
     """
 
-    drink = ask_unique_name(drinks, texts.DRINK_NAME)
-    if len(drink) != 0:
-        drinks.append(Drink(drink))
+    drink_name = ask_unique_name(drinks, texts.DRINK_NAME)
+    if len(drink_name) != 0:
+
+        try:
+            drink_saved = drinks_controller.save_new_drink_in_database(
+                Drink(drink_name))
+            drinks.append(drink_saved)
+        except DatabaseError:
+            print('Database error, new drink will not be saved')
+
     return drinks
 
 
@@ -162,9 +171,13 @@ def create_new_person(people, drinks):
             drink_id = ask_drink_in_list(drinks, texts.ENTER_DRINK_ID)
             if drink_id != 0:
                 drink = drinks[drink_id-1]
-
         p = Person(name, drink)
-        people.append(p)
+        try:
+            saved_person = people_controller.save_new_user_in_database(p)
+            people.append(saved_person)
+        except DatabaseError:
+            print('Database error, new user will not be saved')
+
     return people
 
 
@@ -225,8 +238,15 @@ def set_favourite_drink(people, drinks):
         drink_id = ask_number(texts.ENTER_DRINK_ID, 0, len(drinks))
         if drink_id != 0:
             drink = drinks[drink_id-1]
-            people[person_id - 1].set_favourite_drink(drink)
-            print(texts.FAVOURITE_DRINK_UPDATED)
+            person_to_save = people[person_id - 1]
+            person_to_save.set_favourite_drink(drink)
+            try:
+                people_controller.update_user_in_database(person_to_save)
+                people[person_id - 1].set_favourite_drink(drink)
+                print(texts.FAVOURITE_DRINK_UPDATED)
+            except DatabaseError:
+                print('Database error, favourite drink will not be setted')
+
     return people
 
 

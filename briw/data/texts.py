@@ -41,7 +41,7 @@ GOODBYE = "\n\tGOODBYE!!\n\n"
 
 AVAILABLE_ARGUMENTS_OPTIONS = """
     Only one argument available.
-    Available arguments: 
+    Available arguments:
     -> get-people
     -> get-drinks
 """
@@ -64,13 +64,13 @@ OPTIONS = """
     """
 
 
-help_message = """
+HELP_MESSAGE = """
 
-    This is a project that allows to store and manage the people of a group and their favorite drinks, facilitating the interaction of the team when requesting a drink. 
+    This is a project that allows to store and manage the people of a group and their favorite drinks, facilitating the interaction of the team when requesting a drink.
 
-    Once the project is started, you can choose any of the available options, which will guide you through simple steps, if necessary interaction, to perform the different actions available. 
+    Once the project is started, you can choose any of the available options, which will guide you through simple steps, if necessary interaction, to perform the different actions available.
 
-    The project will continue to ask for any option, unless you choose the option zero number, in this case, the program will close. 
+    The project will continue to ask for any option, unless you choose the option zero number, in this case, the program will close.
 
     The value between () indicate the default value.
 
