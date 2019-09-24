@@ -23,9 +23,13 @@ def get_people_from_database():
 
 def save_new_user_in_database(new_user: Person):
     db = Database(Config)
-    new_user.person_id = db.run_query(
-        f"""INSERT INTO Person(name,favorite_drink_id) 
-        VALUES ('{new_user.name}', {new_user.favourite_drink.drink_id})""")
+    query = f"""INSERT INTO Person(name) VALUES ('{new_user.name}')"""
+
+    if new_user.favourite_drink != None:
+        query = f"""INSERT INTO Person(name,favourite_drink_id) 
+        VALUES ('{new_user.name}', {new_user.favourite_drink.drink_id})"""
+
+    new_user.person_id = db.run_query(query)
     return new_user
 
 

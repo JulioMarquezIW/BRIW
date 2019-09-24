@@ -7,6 +7,7 @@ from briw.functions import printer_aux
 from briw.data import texts
 from briw.functions import file_functions
 from os import system
+from briw.persistence import people_controller
 
 
 def ask_boolean(text):
@@ -162,8 +163,8 @@ def create_new_person(people, drinks):
             drink_id = ask_drink_in_list(drinks, texts.ENTER_DRINK_ID)
             if drink_id != 0:
                 drink = drinks[drink_id-1]
-
         p = Person(name, drink)
+        p = people_controller.save_new_user_in_database(p)
         people.append(p)
     return people
 
