@@ -34,6 +34,7 @@ class Database:
             self.open_connection()
             with self.conn.cursor() as cur:
                 records = []
+                print("QUERY => " + query)
                 cur.execute(query)
                 result = cur.fetchall()
                 for row in result:
@@ -41,8 +42,9 @@ class Database:
                 cur.close()
                 return result
         except pymysql.MySQLError as e:
-            print(e)
+            print("Error connecting to database: " + str(e))
         finally:
             if self.conn:
+                self.conn.commit()
                 self.conn.close()
                 self.conn = None
