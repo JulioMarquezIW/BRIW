@@ -34,6 +34,7 @@ ASK_BREWER = "Who's going to prepare the round? Please enter the id, just press 
 BREWER = "Brewer"
 MORE_ROUNDS = "Show more rounds?(y/N):  "
 ROUND_ID = "Round id"
+CREATED_ROUND = "Round created!"
 
 DATE_FORMAT = "%m/%d/%Y, %H:%M:%S"
 

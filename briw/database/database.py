@@ -34,7 +34,7 @@ class Database:
             with self.conn.cursor(pymysql.cursors.DictCursor) as cur:
                 records = []
                 cur.execute(query)
-                splited_query = query.split(' ')
+                splited_query = query.strip().split(' ')
                 if splited_query[0].upper() == 'SELECT':
                     result = cur.fetchall()
                     for row in result:

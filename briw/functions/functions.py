@@ -352,14 +352,26 @@ def create_round(people, drinks):
     return new_round
 
 
-def create_round_and_set_brewer():
-    pass
+def create_round_and_set_brewer(people, rounds):
+    system('clear')
+    new_round = Round()
+
+    brewer_id = ask_person_id(texts.ASK_BREWER, people)
+
+    if brewer_id != 0:
+        new_round.brewer = people[brewer_id-1]
+        rounds.append(new_round)
+        print(texts.CREATED_ROUND)
+        printer_aux.enter_to_continue()
+
+    return rounds
 
 
 def add_order_to_round():
 
     # SHOW OPEN ROUNDS
+
     # ASK SELECT ONE ROUND
-    #
+    # TODO
 
     pass

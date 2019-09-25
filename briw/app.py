@@ -3,7 +3,7 @@ from briw.functions import functions
 from briw.functions import file_functions
 from briw.functions import printer_aux
 from briw.data import texts
-from briw.persistence import people_controller, drinks_controller
+from briw.persistence import people_controller, drinks_controller, round_controller
 
 
 def run():
@@ -15,6 +15,8 @@ def run():
     drinks_filepath = "briw/resources/drinks.txt"
     people_filepath = "briw/resources/people.txt"
     rounds_filepath = "briw/resources/rounds.txt"
+
+    round_controller.get_rounds_from_database()
 
     people = people_controller.get_people_from_database()
     drinks = drinks_controller.get_drinks_from_database()
@@ -59,9 +61,7 @@ def run():
             people = functions.set_favourite_drink(people, drinks)
         elif op == 7:
             # Create a new round
-            new_round = functions.create_round(people, drinks)
-            if len(new_round.orders) != 0:
-                rounds.append(new_round)
+            rounds = functions.create_round_and_set_brewer(people, rounds)
         elif op == 8:
             # Add order to round
             pass
