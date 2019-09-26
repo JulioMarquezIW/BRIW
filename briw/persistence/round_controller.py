@@ -26,8 +26,8 @@ def get_rounds_from_database(is_open_filter=None):
         ON o.drink_id = d.drink_id
         """
 
-    if is_open_filter != None:
-        query += f" WHERE b.is_open={is_open_filter}"
+    if is_open_filter != None and isinstance(is_open_filter, bool):
+        query += f" WHERE b.is_open={int(is_open_filter)}"
 
     query += " ORDER BY b.round_id"
 

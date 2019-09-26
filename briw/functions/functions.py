@@ -379,7 +379,7 @@ def create_round_and_set_brewer(people, rounds):
 
 def add_order_to_round(people, drinks, rounds):
 
-    # open_rounds = round_controller.get_rounds_from_database(1)
+    # open_rounds = round_controller.get_rounds_from_database(True)
     open_round = rounds[-1]
 
     if open_round.is_open:
@@ -408,7 +408,7 @@ def add_order_to_round(people, drinks, rounds):
 def close_open_round(rounds):
 
     if rounds[-1].is_open:
-        # open_rounds = round_controller.get_rounds_from_database(1)
+        # open_rounds = round_controller.get_rounds_from_database(True)
         open_round = rounds[-1]
         printer_aux.print_rounds([open_round])
 
