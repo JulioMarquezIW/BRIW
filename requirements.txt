@@ -1,4 +1,3 @@
 pytest
 pymysql
 python-dotenv
-encoder
