@@ -7,11 +7,13 @@ import datetime
 
 class Round:
 
-    def __init__(self, orders=[], open_date=datetime.datetime.now(), brewer: Person = None, is_open=True):
+    def __init__(self, orders=[], open_date=datetime.datetime.now(),
+                 brewer: Person = None, is_open=True, round_id=None):
         self.orders = orders
         self.open_date = open_date
         self.brewer = brewer
         self.is_open = is_open
+        self.round_id = round_id
 
     def add_order(self, person: Person, drink: Drink):
         self.orders.append(Order(person, drink))

@@ -7,7 +7,7 @@ from briw.functions import printer_aux
 from briw.data import texts
 from briw.functions import file_functions
 from os import system
-from briw.persistence import people_controller, drinks_controller
+from briw.persistence import people_controller, drinks_controller, round_controller
 from briw.database.database_execption import DatabaseError
 
 
@@ -259,11 +259,11 @@ def goodbye(people, drinks, rounds, people_path, drink_path, round_path):
         - people_path: Path where to store the list of people
         - drink_path: Path where to store the list of drinks
     """
-    if ask_boolean(texts.WANT_TO_SAVE):
-        file_functions.write_drinks(drinks, drink_path)
-        file_functions.write_people(people, people_path)
-        file_functions.write_rounds(rounds, round_path)
-        print(texts.ALL_SAVED)
+    # if ask_boolean(texts.WANT_TO_SAVE):
+    #     file_functions.write_drinks(drinks, drink_path)
+    #     file_functions.write_people(people, people_path)
+    #     file_functions.write_rounds(rounds, round_path)
+    #     print(texts.ALL_SAVED)
     print(texts.GOODBYE)
 
 
@@ -271,7 +271,7 @@ def ask_drinks_for_pepole(new_round, people, drinks):
     """
     Ask for the drink that each person wants from the list of people passed as parameter.
     + Parameters:
-        - new_round: round that is being created 
+        - new_round: round that is being created
         - people: list of people who wants a drink
         - drinks: list of drinks
     Returns the received round filled with the orders that have been correctly entered.
@@ -360,18 +360,42 @@ def create_round_and_set_brewer(people, rounds):
 
     if brewer_id != 0:
         new_round.brewer = people[brewer_id-1]
-        rounds.append(new_round)
-        print(texts.CREATED_ROUND)
-        printer_aux.enter_to_continue()
+
+        try:
+            new_round = round_controller.create_new_open_round_in_database(
+                new_round)
+            rounds.append(new_round)
+            print(texts.CREATED_ROUND)
+            print(texts.FAVOURITE_DRINK_UPDATED)
+        except DatabaseError:
+            print('Database error, favourite drink will not be setted')
 
     return rounds
 
 
-def add_order_to_round():
+def add_order_to_round(people, drinks, rounds):
 
-    # SHOW OPEN ROUNDS
+    # open_rounds = round_controller.get_rounds_from_database(1)
+    open_round = rounds[len(rounds)-1]
+    # SHOW OPEN ROUND
+    printer_aux.print_rounds([open_round])
 
     # ASK SELECT ONE ROUND
-    # TODO
 
-    pass
+    person_id = ask_person_id(texts.ENTER_PERSON_ID, people)
+    if person_id != 0:
+        printer_aux.print_list(texts.DRINKS, drinks)
+        drink_id = ask_number(texts.ENTER_DRINK_ID, 0, len(drinks))
+        if drink_id != 0:
+            drink = drinks[drink_id-1]
+            person = people[person_id - 1]
+            new_order = Order(person, drink)
+            try:
+                round_controller.add_order_to_round_in_database(
+                    open_round, new_order)
+                rounds[len(rounds)-1].orders.append(new_order)
+                print(texts.CREATED_ORDER)
+            except DatabaseError:
+                print('Database error, favourite drink will not be setted')
+
+    return rounds

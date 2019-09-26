@@ -16,15 +16,14 @@ def run():
     people_filepath = "briw/resources/people.txt"
     rounds_filepath = "briw/resources/rounds.txt"
 
-    round_controller.get_rounds_from_database()
-
+    rounds = round_controller.get_rounds_from_database()
     people = people_controller.get_people_from_database()
     drinks = drinks_controller.get_drinks_from_database()
 
     # Read data from files
     # people = file_functions.read_people_from_file(people_filepath)
     # drinks = file_functions.read_drinks_from_file(drinks_filepath)
-    rounds = file_functions.read_rounds(rounds_filepath)
+    # rounds = file_functions.read_rounds(rounds_filepath)
 
     # Check arguments
     functions.check_args(sys.argv, people, drinks)
@@ -34,7 +33,7 @@ def run():
         printer_aux.print_options()
 
         minimumOptionNumber = 0
-        maximumOptionNumber = 10
+        maximumOptionNumber = 11
 
         # Ask for a value, which must be a number,
         # and repeat the question until the user enters a number.
@@ -64,7 +63,7 @@ def run():
             rounds = functions.create_round_and_set_brewer(people, rounds)
         elif op == 8:
             # Add order to round
-            pass
+            functions.add_order_to_round(people, drinks, rounds)
         elif op == 9:
             # Print rounds
             printer_aux.print_rounds(rounds)

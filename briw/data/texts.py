@@ -38,6 +38,7 @@ CREATED_ROUND = "Round created!"
 STATUS = "Status"
 CLOSE = "Close"
 OPEN = "Open"
+CREATED_ORDER = "Order added!"
 
 DATE_FORMAT = "%m/%d/%Y, %H:%M:%S"
 
@@ -61,8 +62,9 @@ OPTIONS = """
         [5] Add people
         [6] Set favourite drink
         [7] Create a round
-        [8] Print rounds
-        [9] Help
+        [8] Add order to round
+        [9] Print rounds
+        [10] Help
         [0] Exit
 
     """

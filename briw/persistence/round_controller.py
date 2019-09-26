@@ -2,20 +2,17 @@
 from briw.database.database import Database
 from briw.database.database import Config
 from briw.classes.brew_round import Round
-from briw.functions.printer_aux import print_rounds
 from briw.classes.person import Person
 from briw.classes.order import Order
 from briw.classes.drink import Drink
 
 
-def get_rounds_from_database():
+def get_rounds_from_database(is_open_filter=None):
     rounds = []
 
     db = Database(Config)
 
-    # SELECT * FROM BrewRound as b INNER JOIN BrewOrder as o ON o.round_id = b.round_id;
-    db_rounds = db.run_query(
-        """
+    query = """
         SELECT b.is_open, b.brewer as brewer_id, b.open_date, b.round_id, 
         p.name as person_name, d.name as drink_name, p2.name as brewer_name
         FROM julio.BrewRound as b 
@@ -27,8 +24,14 @@ def get_rounds_from_database():
         ON b.brewer = p2.person_id
         INNER JOIN Drink as d 
         ON o.drink_id = d.drink_id
-        ORDER BY b.round_id;
-        """)
+        """
+
+    if is_open_filter != None:
+        query += f" WHERE b.is_open={is_open_filter}"
+
+    query += " ORDER BY b.round_id"
+
+    db_rounds = db.run_query(query)
 
     # TODO IMPROVE
     curret_round = db_rounds[0]
@@ -37,14 +40,24 @@ def get_rounds_from_database():
     for idx, order in enumerate(db_rounds):
         if curret_round['round_id'] != order['round_id'] or idx == len(db_rounds):
             rounds.append(
-                Round(round_orders, curret_round['open_date'], Person(curret_round['brewer_name'], None, curret_round['brewer_id']), curret_round['is_open']))
+                Round(
+                    round_orders, curret_round['open_date'],
+                    Person(curret_round['brewer_name'],
+                           None, curret_round['brewer_id']),
+                    curret_round['is_open'],
+                    curret_round['round_id']))
             curret_round = order
             round_orders = []
         round_orders.append(
             Order(Person(order['person_name']), Drink(order['drink_name'])))
 
     rounds.append(
-        Round(round_orders, curret_round['open_date'], Person(curret_round['brewer_name'], None, curret_round['brewer_id']), curret_round['is_open']))
+        Round(
+            round_orders, curret_round['open_date'],
+            Person(curret_round['brewer_name'],
+                   None, curret_round['brewer_id']),
+            curret_round['is_open'],
+            curret_round['round_id']))
 
     return rounds
 
@@ -78,31 +91,3 @@ def close_round_in_database(open_round: Round):
         UPDATE BrewRound SET is_open=FALSE WHERE round_id={open_round.round_id}
         """)
     open_round.is_open = False
-
-
-# def delete_drink_in_database(drink: Drink):
-#     db = Database(Config)
-#     db.run_query(
-#         f"""DELETE FROM Drink WHERE drink_id={drink.drink_id}""")
-
-
-# def update_drink_in_database(drink: Drink):
-#     db = Database(Config)
-#     db.run_query(
-#         f"""UPDATE Drink
-#         SET name='{drink.name}', drink_id={drink.drink_id}
-#         WHERE drink_id={drink.drink_id}
-#         """)
-
-# new_round = Round()
-# p = Person('Julio', None, 1)
-# d = Drink('Water', 2)
-# new_round.brewer = p
-
-# new_round = create_new_open_round_in_database(new_round)
-
-# new_order = Order(p, d)
-
-# add_order_to_round_in_database(new_round, new_order)
-
-# close_round_in_database(new_round)
