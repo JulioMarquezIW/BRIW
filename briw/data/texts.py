@@ -35,6 +35,9 @@ BREWER = "Brewer"
 MORE_ROUNDS = "Show more rounds?(y/N):  "
 ROUND_ID = "Round id"
 CREATED_ROUND = "Round created!"
+STATUS = "Status"
+CLOSE = "Close"
+OPEN = "Open"
 
 DATE_FORMAT = "%m/%d/%Y, %H:%M:%S"
 

@@ -48,12 +48,17 @@ def print_rounds(rounds):
         rounds.reverse()
         i = 0
         for idx, r in enumerate(rounds):
+            status = texts.CLOSE
+            if r.is_open:
+                status = texts.OPEN
             print('| ' + texts.ROUND_ID.upper() +
                   " : "+str(idx) + ' | ')
             print('| ' + texts.ROUND_DATE.upper() +
                   r.date.strftime(texts.DATE_FORMAT) + ' | ')
             print('| ' + texts.BREWER.upper() + " -> " +
                   r.brewer.name + ' | ')
+            print('| ' + texts.STATUS.upper() + " -> " +
+                  status.upper() + ' | ')
             print('| ' + texts.PEOPLE.upper() + ' | ' + texts.DRINKS.upper())
             for idx, r in enumerate(r.orders):
                 print(

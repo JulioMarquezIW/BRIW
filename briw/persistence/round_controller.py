@@ -30,15 +30,7 @@ def get_rounds_from_database():
         ORDER BY b.round_id;
         """)
 
-    orders = {}
-    curret_round = db_rounds[0]['round_id']
-    orders[curret_round] = []
-    for order in db_rounds:
-        if curret_round != order['round_id']:
-            curret_round = order['round_id']
-            orders[curret_round] = []
-        orders[curret_round].append(order)
-
+    # TODO IMPROVE
     curret_round = db_rounds[0]
     round_orders = []
     rounds = []
@@ -50,8 +42,11 @@ def get_rounds_from_database():
             round_orders = []
         round_orders.append(
             Order(Person(order['person_name']), Drink(order['drink_name'])))
-    print_rounds(rounds)
 
+    rounds.append(
+        Round(round_orders, curret_round['open_date'], Person(curret_round['brewer_name'], None, curret_round['brewer_id']), curret_round['is_open']))
+
+    print_rounds(rounds)
     return rounds
 
 
