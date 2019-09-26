@@ -119,7 +119,7 @@ class Test_Methods(unittest.TestCase):
         people = [Person('Julio'), Person('Dani')]
         drinks = [Drink('Water'), Drink('Coffee')]
 
-        functions.create_new_person(people, drinks)
+        people = functions.create_new_person(people, drinks)
 
         self.assertTrue(len(people) == 3)
         self.assertTrue(people[len(people)-1].name == testName.strip())

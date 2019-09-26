@@ -354,21 +354,25 @@ def create_round(people, drinks):
 
 def create_round_and_set_brewer(people, rounds):
     system('clear')
-    new_round = Round()
 
-    brewer_id = ask_person_id(texts.ASK_BREWER, people)
+    if rounds[-1].is_open:
+        print(texts.OPEN_ROUND_INFO)
+    else:
+        new_round = Round()
 
-    if brewer_id != 0:
-        new_round.brewer = people[brewer_id-1]
+        brewer_id = ask_person_id(texts.ASK_BREWER, people)
 
-        try:
-            new_round = round_controller.create_new_open_round_in_database(
-                new_round)
-            rounds.append(new_round)
-            print(texts.CREATED_ROUND)
-            print(texts.FAVOURITE_DRINK_UPDATED)
-        except DatabaseError:
-            print('Database error, favourite drink will not be setted')
+        if brewer_id != 0:
+            new_round.brewer = people[brewer_id-1]
+
+            try:
+                new_round = round_controller.create_new_open_round_in_database(
+                    new_round)
+                rounds.append(new_round)
+                print(texts.CREATED_ROUND)
+                print(texts.FAVOURITE_DRINK_UPDATED)
+            except DatabaseError:
+                print(texts.DATABASE_ERROR + texts.ROUND_NOT_ADDED)
 
     return rounds
 
@@ -376,26 +380,47 @@ def create_round_and_set_brewer(people, rounds):
 def add_order_to_round(people, drinks, rounds):
 
     # open_rounds = round_controller.get_rounds_from_database(1)
-    open_round = rounds[len(rounds)-1]
-    # SHOW OPEN ROUND
-    printer_aux.print_rounds([open_round])
+    open_round = rounds[-1]
 
-    # ASK SELECT ONE ROUND
+    if open_round.is_open:
+        printer_aux.print_rounds([open_round])
+        person_id = ask_person_id(texts.ENTER_PERSON_ID, people)
+        if person_id != 0:
+            printer_aux.print_list(texts.DRINKS, drinks)
+            drink_id = ask_number(texts.ENTER_DRINK_ID, 0, len(drinks))
+            if drink_id != 0:
+                drink = drinks[drink_id-1]
+                person = people[person_id - 1]
+                new_order = Order(person, drink)
+                try:
+                    round_controller.add_order_to_round_in_database(
+                        open_round, new_order)
+                    rounds[-1].orders.append(new_order)
+                    print(texts.CREATED_ORDER)
+                except DatabaseError:
+                    print(texts.DATABASE_ERROR + texts.ORDER_NOT_ADDED)
+    else:
+        print(texts.NOT_OPEN_ROUND)
 
-    person_id = ask_person_id(texts.ENTER_PERSON_ID, people)
-    if person_id != 0:
-        printer_aux.print_list(texts.DRINKS, drinks)
-        drink_id = ask_number(texts.ENTER_DRINK_ID, 0, len(drinks))
-        if drink_id != 0:
-            drink = drinks[drink_id-1]
-            person = people[person_id - 1]
-            new_order = Order(person, drink)
+    return rounds
+
+
+def close_open_round(rounds):
+
+    if rounds[-1].is_open:
+        # open_rounds = round_controller.get_rounds_from_database(1)
+        open_round = rounds[-1]
+        printer_aux.print_rounds([open_round])
+
+        if ask_boolean(texts.CONFIRM_CLOSE_ROUND):
             try:
-                round_controller.add_order_to_round_in_database(
-                    open_round, new_order)
-                rounds[len(rounds)-1].orders.append(new_order)
-                print(texts.CREATED_ORDER)
+                round_controller.close_round_in_database(open_round)
+                rounds[-1].is_open = False
+                print(texts.ROUND_CLOSED)
             except DatabaseError:
-                print('Database error, favourite drink will not be setted')
+                print(texts.DATABASE_ERROR + texts.ROUND_NOT_CLOSED)
+
+    else:
+        print(texts.NOT_OPEN_ROUND)
 
     return rounds

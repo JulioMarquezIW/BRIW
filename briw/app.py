@@ -33,7 +33,7 @@ def run():
         printer_aux.print_options()
 
         minimumOptionNumber = 0
-        maximumOptionNumber = 11
+        maximumOptionNumber = 12
 
         # Ask for a value, which must be a number,
         # and repeat the question until the user enters a number.
@@ -63,11 +63,14 @@ def run():
             rounds = functions.create_round_and_set_brewer(people, rounds)
         elif op == 8:
             # Add order to round
-            functions.add_order_to_round(people, drinks, rounds)
+            rounds = functions.add_order_to_round(people, drinks, rounds)
         elif op == 9:
+            # Close open round
+            rounds = functions.close_open_round(rounds)
+        elif op == 10:
             # Print rounds
             printer_aux.print_rounds(rounds)
-        elif op == 10:
+        elif op == 11:
             # HELP MESSAGE
             print(texts.HELP_MESSAGE)
         elif op == 0 or op == None:

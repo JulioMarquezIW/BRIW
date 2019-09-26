@@ -39,6 +39,15 @@ STATUS = "Status"
 CLOSE = "Close"
 OPEN = "Open"
 CREATED_ORDER = "Order added!"
+OPEN_ROUND_INFO = "There is already an open round, join it or close it to start a new one."
+NOT_OPEN_ROUND = "There are no open rounds."
+CONFIRM_CLOSE_ROUND = "Are you sure you want to close the round?"
+ROUND_CLOSED = "Round closed!"
+ORDER_NOT_ADDED = "the new order couldn't be saved."
+ROUND_NOT_ADDED = "the new round couldn't be saved."
+ROUND_NOT_CLOSED = "the round couldn't be closed."
+DATABASE_ERROR = 'Database error, '
+
 
 DATE_FORMAT = "%m/%d/%Y, %H:%M:%S"
 
@@ -63,8 +72,9 @@ OPTIONS = """
         [6] Set favourite drink
         [7] Create a round
         [8] Add order to round
-        [9] Print rounds
-        [10] Help
+        [9] Close open round
+        [10] Print rounds
+        [11] Help
         [0] Exit
 
     """
