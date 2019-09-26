@@ -54,7 +54,7 @@ def print_rounds(rounds):
             print('| ' + texts.ROUND_ID.upper() +
                   " : "+str(idx) + ' | ')
             print('| ' + texts.ROUND_DATE.upper() +
-                  r.date.strftime(texts.DATE_FORMAT) + ' | ')
+                  r.open_date.strftime(texts.DATE_FORMAT) + ' | ')
             print('| ' + texts.BREWER.upper() + " -> " +
                   r.brewer.name + ' | ')
             print('| ' + texts.STATUS.upper() + " -> " +

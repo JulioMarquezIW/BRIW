@@ -7,9 +7,9 @@ import datetime
 
 class Round:
 
-    def __init__(self, orders=[], date=datetime.datetime.now(), brewer: Person = None, is_open=True):
+    def __init__(self, orders=[], open_date=datetime.datetime.now(), brewer: Person = None, is_open=True):
         self.orders = orders
-        self.date = date
+        self.open_date = open_date
         self.brewer = brewer
         self.is_open = is_open
 

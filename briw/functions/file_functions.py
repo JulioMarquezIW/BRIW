@@ -116,7 +116,7 @@ def write_rounds(rounds, filepath):
     for _round in rounds:
         row_to_write = ""
         # semi colon (;) used for seperation
-        row_to_write += _round.date.strftime(texts.DATE_FORMAT)
+        row_to_write += _round.open_date.strftime(texts.DATE_FORMAT)
         row_to_write += ";" + _round.brewer.name
         for order in _round.orders:
             row_to_write += f";{order.person.name},{order.drink.name}"

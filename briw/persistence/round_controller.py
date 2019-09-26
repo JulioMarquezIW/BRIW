@@ -46,16 +46,18 @@ def get_rounds_from_database():
     rounds.append(
         Round(round_orders, curret_round['open_date'], Person(curret_round['brewer_name'], None, curret_round['brewer_id']), curret_round['is_open']))
 
-    print_rounds(rounds)
     return rounds
 
 
-# def save_new_drink_in_database(new_drink: Drink):
-#     db = Database(Config)
-#     new_drink.drink_id = db.run_query(
-#         f"""INSERT INTO Drink(name)
-#         VALUES ('{new_drink.name}')""")
-#     return new_drink
+def create_new_open_round_in_database(new_round: Round):
+    db = Database(Config)
+    new_round.round_id = db.run_query(
+        f"""
+        INSERT INTO BrewRound(is_open,brewer, open_date)
+        VALUES ({new_round.is_open},'{new_round.brewer.person_id}', 
+        '{new_round.open_date.strftime('%Y-%m-%d %H:%M:%S')}')
+        """)
+    return new_round
 
 
 # def delete_drink_in_database(drink: Drink):
@@ -72,4 +74,8 @@ def get_rounds_from_database():
 #         WHERE drink_id={drink.drink_id}
 #         """)
 
-get_rounds_from_database()
+new_round = Round()
+p = Person('Julio', None, 1)
+new_round.brewer = p
+
+create_new_open_round_in_database(new_round)
