@@ -25,7 +25,8 @@ class RoundEncoder(JSONEncoder):
                 'open_date': object.open_date.strftime(texts.DATE_FORMAT),
                 'brewer': object.brewer.name,
                 'status': status,
-                'orders': orders
+                'orders': orders,
+                'round_id': object.round_id
             }
 
         else:

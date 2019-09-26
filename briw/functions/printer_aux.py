@@ -60,9 +60,12 @@ def print_rounds(rounds):
             print('| ' + texts.STATUS.upper() + " -> " +
                   status.upper() + ' | ')
             print('| ' + texts.PEOPLE.upper() + ' | ' + texts.DRINKS.upper())
-            for idx, r in enumerate(r.orders):
-                print(
-                    f"| {idx+1}   | {r.person.name} | {r.drink.name}")
+            if r.orders:
+                for idx, r in enumerate(r.orders):
+                    print(
+                        f"| {idx+1}   | {r.person.name} | {r.drink.name}")
+            else:
+                print(texts.NOT_ORDERS)
             print_divider()
             print("\n")
             i += 1

@@ -137,7 +137,7 @@ def add_drink(drinks):
                 Drink(drink_name))
             drinks.append(drink_saved)
         except DatabaseError:
-            print('Database error, new drink will not be saved')
+            print(texts.DATABASE_ERROR + texts.DRINK_NOT_ADDED)
 
     return drinks
 
@@ -176,7 +176,7 @@ def create_new_person(people, drinks):
             saved_person = people_controller.save_new_user_in_database(p)
             people.append(saved_person)
         except DatabaseError:
-            print('Database error, new user will not be saved')
+            print(texts.DATABASE_ERROR + texts.PERSON_NOT_ADDED)
 
     return people
 
@@ -245,7 +245,7 @@ def set_favourite_drink(people, drinks):
                 people[person_id - 1].set_favourite_drink(drink)
                 print(texts.FAVOURITE_DRINK_UPDATED)
             except DatabaseError:
-                print('Database error, favourite drink will not be setted')
+                print(texts.DATABASE_ERROR + texts.FAVUOIRTE_DRINK_NOT_SETTED)
 
     return people
 
@@ -312,50 +312,10 @@ def ask_sublist_people(people, drinks, new_round):
     return ask_drinks_for_pepole(new_round, new_people_list, drinks)
 
 
-def create_round(people, drinks):
-    """
-    Function to create a new round, asking for what people want some drink]
-    and what drink (Asking first if they want them favourite drink)
-    + Parameters:
-        - people: list of people
-        - drinks: list of drinks
-    """
-    system('clear')
-    new_round = Round()
-    new_round.orders = []
-
-    brewer_id = ask_person_id(texts.ASK_BREWER, people)
-
-    if brewer_id != 0:
-        new_round.brewer = people[brewer_id-1]
-
-        people_without_favorite = []
-        if ask_boolean(texts.ROUND_FAVOURITE_DRINKS):
-            for person in people:
-                if person.favourite_drink:
-                    new_round.add_order(person, person.favourite_drink)
-                else:
-                    people_without_favorite.append(person)
-            if people_without_favorite:
-                system('clear')
-                print(texts.PEOPLE_WITHOUT_FAVOURITE_DRINK)
-                printer_aux.print_list(texts.PEOPLE, people_without_favorite)
-                printer_aux.enter_to_continue()
-                new_round = ask_drinks_for_pepole(
-                    new_round, people_without_favorite, drinks)
-        elif ask_boolean(texts.ALL_PEOPLE_WANT_DRINKS):
-            new_round = ask_drinks_for_pepole(new_round, people, drinks)
-        else:
-            new_round = ask_sublist_people(people, drinks, new_round)
-
-    new_round.print_round()
-    return new_round
-
-
 def create_round_and_set_brewer(people, rounds):
     system('clear')
 
-    if rounds[-1].is_open:
+    if len(rounds) != 0 and rounds[-1].is_open:
         print(texts.OPEN_ROUND_INFO)
     else:
         new_round = Round()
@@ -380,34 +340,38 @@ def create_round_and_set_brewer(people, rounds):
 def add_order_to_round(people, drinks, rounds):
 
     # open_rounds = round_controller.get_rounds_from_database(True)
-    open_round = rounds[-1]
 
-    if open_round.is_open:
-        printer_aux.print_rounds([open_round])
-        person_id = ask_person_id(texts.ENTER_PERSON_ID, people)
-        if person_id != 0:
-            printer_aux.print_list(texts.DRINKS, drinks)
-            drink_id = ask_number(texts.ENTER_DRINK_ID, 0, len(drinks))
-            if drink_id != 0:
-                drink = drinks[drink_id-1]
-                person = people[person_id - 1]
-                new_order = Order(person, drink)
-                try:
-                    round_controller.add_order_to_round_in_database(
-                        open_round, new_order)
-                    rounds[-1].orders.append(new_order)
-                    print(texts.CREATED_ORDER)
-                except DatabaseError:
-                    print(texts.DATABASE_ERROR + texts.ORDER_NOT_ADDED)
+    if len(rounds) != 0:
+        open_round = rounds[-1]
+
+        if open_round.is_open:
+            printer_aux.print_rounds([open_round])
+            person_id = ask_person_id(texts.ENTER_PERSON_ID, people)
+            if person_id != 0:
+                printer_aux.print_list(texts.DRINKS, drinks)
+                drink_id = ask_number(texts.ENTER_DRINK_ID, 0, len(drinks))
+                if drink_id != 0:
+                    drink = drinks[drink_id-1]
+                    person = people[person_id - 1]
+                    new_order = Order(person, drink)
+                    try:
+                        round_controller.add_order_to_round_in_database(
+                            open_round, new_order)
+                        rounds[-1].orders.append(new_order)
+                        print(texts.CREATED_ORDER)
+                    except DatabaseError:
+                        print(texts.DATABASE_ERROR + texts.ORDER_NOT_ADDED)
+        else:
+            print(texts.NOT_OPEN_ROUND)
     else:
-        print(texts.NOT_OPEN_ROUND)
+        print(texts.NOT_ROUNDS)
 
     return rounds
 
 
 def close_open_round(rounds):
 
-    if rounds[-1].is_open:
+    if len(rounds) != 0 and rounds[-1].is_open:
         # open_rounds = round_controller.get_rounds_from_database(True)
         open_round = rounds[-1]
         printer_aux.print_rounds([open_round])

@@ -13,51 +13,52 @@ def get_rounds_from_database(is_open_filter=None):
     db = Database(Config)
 
     query = """
-        SELECT b.is_open, b.brewer as brewer_id, b.open_date, b.round_id, 
-        p.name as person_name, d.name as drink_name, p2.name as brewer_name
-        FROM julio.BrewRound as b 
-        INNER JOIN BrewOrder as o 
-        ON o.round_id = b.round_id 
+       	SELECT r.is_open, r.brewer as brewer_id, r.open_date, r.round_id,
+        p.name as brewer_name, p2.name as person_name, d.name as drink_name
+       	FROM BrewOrder as o
+       	RIGHT JOIN BrewRound as r
+       	ON o.round_id = r.round_id
         INNER JOIN Person as p 
-        ON o.person_id = p.person_id
-        INNER JOIN Person as p2 
-        ON b.brewer = p2.person_id
-        INNER JOIN Drink as d 
-        ON o.drink_id = d.drink_id
+        ON p.person_id = r.brewer
+       	LEFT JOIN Drink as d 
+        ON d.drink_id = o.drink_id
+        LEFT JOIN Person as p2 
+        ON p2.person_id = o.person_id
         """
 
     if is_open_filter != None and isinstance(is_open_filter, bool):
-        query += f" WHERE b.is_open={int(is_open_filter)}"
+        query += f" WHERE r.is_open={int(is_open_filter)}"
 
-    query += " ORDER BY b.round_id"
+    query += " ORDER BY r.round_id"
 
     db_rounds = db.run_query(query)
 
-    # TODO IMPROVE
-    curret_round = db_rounds[0]
-    round_orders = []
     rounds = []
-    for idx, order in enumerate(db_rounds):
-        if curret_round['round_id'] != order['round_id'] or idx == len(db_rounds):
-            rounds.append(
-                Round(
-                    round_orders, curret_round['open_date'],
-                    Person(curret_round['brewer_name'],
-                           None, curret_round['brewer_id']),
-                    curret_round['is_open'],
-                    curret_round['round_id']))
-            curret_round = order
-            round_orders = []
-        round_orders.append(
-            Order(Person(order['person_name']), Drink(order['drink_name'])))
+    if len(db_rounds) != 0:
+        curret_round = db_rounds[0]
+        round_orders = []
+        for idx, order in enumerate(db_rounds):
+            if curret_round['round_id'] != order['round_id'] or idx == len(db_rounds):
+                rounds.append(
+                    Round(
+                        round_orders, curret_round['open_date'],
+                        Person(curret_round['brewer_name'],
+                               None, curret_round['brewer_id']),
+                        curret_round['is_open'],
+                        curret_round['round_id']))
+                curret_round = order
+                round_orders = []
+            if order['person_name']:
+                round_orders.append(
+                    Order(Person(order['person_name']), Drink(order['drink_name'])))
 
-    rounds.append(
-        Round(
-            round_orders, curret_round['open_date'],
-            Person(curret_round['brewer_name'],
-                   None, curret_round['brewer_id']),
-            curret_round['is_open'],
-            curret_round['round_id']))
+        rounds.append(
+            Round(
+                round_orders, curret_round['open_date'],
+                Person(curret_round['brewer_name'],
+                       None, curret_round['brewer_id']),
+                curret_round['is_open'],
+                curret_round['round_id']))
 
     return rounds
 

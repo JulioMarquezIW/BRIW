@@ -45,8 +45,13 @@ CONFIRM_CLOSE_ROUND = "Are you sure you want to close the round? (y/N): "
 ROUND_CLOSED = "Round closed!"
 ORDER_NOT_ADDED = "the new order couldn't be saved."
 ROUND_NOT_ADDED = "the new round couldn't be saved."
+PERSON_NOT_ADDED = "the new user couldn't be saved."
+DRINK_NOT_ADDED = "the new drink couldn't be saved."
 ROUND_NOT_CLOSED = "the round couldn't be closed."
 DATABASE_ERROR = 'Database error, '
+FAVUOIRTE_DRINK_NOT_SETTED = 'favourite drink will not be setted'
+NOT_ROUNDS = 'There are no rounds'
+NOT_ORDERS = 'There are no orders'
 
 
 DATE_FORMAT = "%m/%d/%Y, %H:%M:%S"

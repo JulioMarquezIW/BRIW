@@ -4,13 +4,16 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 import json
 from briw.persistence.drinks_controller import get_drinks_from_database, save_new_drink_in_database
 from briw.persistence.people_controller import get_people_from_database, save_new_user_in_database
-from briw.persistence.round_controller import get_rounds_from_database
+from briw.persistence.round_controller import get_rounds_from_database, create_new_open_round_in_database, close_round_in_database, add_order_to_round_in_database
 from briw.classes.drink import Drink
 from briw.classes.person import Person
+from briw.classes.brew_round import Round
+from briw.classes.order import Order
 from briw.api.drink_encoder import DrinkEncoder
 from briw.database.database_execption import DatabaseError
 from briw.api.people_encoder import PeopleEncoder
 from briw.api.round_encoder import RoundEncoder
+from briw.data import texts
 
 
 def get_drinks():
@@ -38,7 +41,7 @@ def post_drink(handler, data):
         handler.send_response(400)
     except DatabaseError:
         handler.send_response(500)
-        print('Database error, new drink will not be saved')
+        print(texts.DATABASE_ERROR + texts.DRINK_NOT_ADDED)
     finally:
         handler.end_headers()
 
@@ -54,7 +57,58 @@ def post_people(handler, data):
         handler.send_response(400)
     except DatabaseError:
         handler.send_response(500)
-        print('Database error, new drink will not be saved')
+        print(texts.DATABASE_ERROR + texts.ROUND_NOT_ADDED)
+    finally:
+        handler.end_headers()
+
+
+def post_round(handler, data):
+    try:
+        brewer_person = Person(person_id=data['brewer_id'])
+        new_round = Round(brewer=brewer_person)
+        create_new_open_round_in_database(new_round)
+        handler.send_response(201)
+    except KeyError as e:
+        print("JSON KEY ERRORS: "+str(e))
+        handler.send_response(400)
+    except DatabaseError:
+        handler.send_response(500)
+        print(texts.DATABASE_ERROR + texts.ROUND_NOT_ADDED)
+    finally:
+        handler.end_headers()
+
+
+def post_close_round(handler, data):
+    try:
+        open_round = Round(round_id=data['round_id'])
+        close_round_in_database(open_round)
+        handler.send_response(201)
+    except KeyError as e:
+        print("JSON KEY ERRORS: "+str(e))
+        handler.send_response(400)
+    except DatabaseError:
+        handler.send_response(500)
+        print(texts.DATABASE_ERROR + texts.ROUND_NOT_ADDED)
+    finally:
+        handler.end_headers()
+
+
+def post_add_order_to_round(handler, data):
+    try:
+        open_round = Round(round_id=data['round_id'])
+        new_order = Order(Person(person_id=data['person_id']), Drink(
+            drink_id=data['drink_id']))
+
+        # TODO Check if the round is closed before to add the order
+        add_order_to_round_in_database(open_round, new_order)
+
+        handler.send_response(201)
+    except KeyError as e:
+        print("JSON KEY ERRORS: "+str(e))
+        handler.send_response(400)
+    except DatabaseError:
+        handler.send_response(500)
+        print(texts.DATABASE_ERROR + texts.ROUND_NOT_ADDED)
     finally:
         handler.end_headers()
 
@@ -85,11 +139,16 @@ class APIHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
         data = json.loads(self.rfile.read(content_length))
-
         if self.path == '/drinks':
             post_drink(self, data)
         elif self.path == '/people':
             post_people(self, data)
+        elif self.path == '/rounds':
+            post_round(self, data)
+        elif self.path == '/rounds/close':
+            post_close_round(self, data)
+        elif self.path == '/rounds/order':
+            post_add_order_to_round(self, data)
 
 
 if __name__ == "__main__":

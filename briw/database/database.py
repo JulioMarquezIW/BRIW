@@ -4,6 +4,7 @@ import pymysql
 
 from briw.database.config import Config
 from briw.database.database_execption import DatabaseError
+from briw.data import texts
 
 
 class Database:
@@ -44,7 +45,7 @@ class Database:
                 cur.close()
                 return records
         except pymysql.MySQLError as e:
-            print("Database error: " + str(e))
+            print(texts.DATABASE_ERROR + str(e))
             raise DatabaseError()
         finally:
             if self.conn:
