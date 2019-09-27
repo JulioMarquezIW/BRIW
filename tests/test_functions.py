@@ -79,7 +79,8 @@ class Test_Methods(unittest.TestCase):
         self.assertTrue(people[0].favourite_drink.name == drinks[1].name)
         self.assertTrue(people[1].favourite_drink == None)
 
-    def test_create_new_person_with_drink(self):
+    @patch('briw.persistence.people_controller')
+    def test_create_new_person_with_drink(self, people_controller):
         # Select the first option to create
         testName = ' TestName '
         drinkOption = '1'
@@ -90,18 +91,20 @@ class Test_Methods(unittest.TestCase):
         # 'Y': option to select that I want to add the favorite drink of the new period.
         # '99': Incorrect number for the moment of choosing a drink from the list.
         # drinkOption: Correct number for the moment of choosing a drink from the list
-        input_values = ['Julio', 'TestName', 'Y', '99', drinkOption]
+        input_values = ['Julio', testName, 'Y', '99', drinkOption]
         mock_inputs(input_values)
 
         people = [Person('Julio'), Person('Dani')]
         drinks = [Drink('Water'), Drink('Coffee')]
 
-        functions.create_new_person(people, drinks)
+        people_controller.save_new_user_in_database.return_value = Person(
+            testName, drinkOption, 12)
+        people = functions.create_new_person(people, drinks)
 
         self.assertTrue(len(people) == 3)
-        self.assertTrue(people[len(people)-1].name == testName.strip())
+        self.assertTrue(people[-1].name == testName.strip())
         self.assertTrue(
-            people[len(people)-1].favourite_drink.name == drinks[int(drinkOption)-1].name)
+            people[-1].favourite_drink.name == drinks[int(drinkOption)-1].name)
 
     def test_create_new_person_without_drink(self):
         # Select the first option to create
