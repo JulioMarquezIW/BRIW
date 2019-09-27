@@ -113,28 +113,80 @@ def post_add_order_to_round(handler, data):
         handler.end_headers()
 
 
+def render_drinks(drinks):
+    drinks_html = ""
+    for drink in drinks:
+        drinks_html += f'<li>{drink.name}</li>'
+    return drinks_html
+
+
+def render_people(people):
+    people_html = ""
+    for person in people:
+        people_html += f'<li>{person.name}</li>'
+    return people_html
+
+
+def render_rounds(rounds):
+    rounds_html = ""
+    for _round in rounds:
+        rounds_html += f'<li>{_round.get_string_date()} | maker -> {_round.brewer.name}</li>'
+    return rounds_html
+
+
+def render_website():
+    drinks = get_drinks_from_database()
+    people = get_people_from_database()
+    rounds = get_rounds_from_database()
+
+    return f"""
+    <!doctype html>
+    <html>
+        <body>
+            <p>Available drinks:</p>
+            <ul>
+                {render_drinks(drinks)}
+            </ul>
+            <p>People:</p>
+            <ul>
+                {render_people(people)}
+            </ul>
+            <p>Rounds:</p>
+            <ul>
+                {render_rounds(rounds)}
+            </ul>
+        </body>
+    </html>
+    """
+
+
 class APIHandler(BaseHTTPRequestHandler):
-    def _set_headers(self):
+    def _set_headers(self, content_type='text/json'):
         self.send_response(200)
-        self.send_header('Content-type', 'text/json')
+        self.send_header('Content-type', content_type)
         self.end_headers()
 
     def do_GET(self):
-        self._set_headers()
 
-        jd = {}
-        if self.path == '/drinks':
-            jd = get_drinks()
-        elif self.path == '/people':
-            jd = get_people()
-        elif self.path == '/rounds':
-            jd = get_rounds()
-        elif self.path == '/rounds/open':
-            jd = get_rounds(True)
-        elif self.path == '/rounds/close':
-            jd = get_rounds(False)
-
-        self.wfile.write(jd.encode('utf-8'))
+        jd = None
+        if self.path == '/':
+            self._set_headers(content_type='text/html')
+            jd = render_website()
+        else:
+            self._set_headers()
+            jd = {}
+            if self.path == '/drinks':
+                jd = get_drinks()
+            elif self.path == '/people':
+                jd = get_people()
+            elif self.path == '/rounds':
+                jd = get_rounds()
+            elif self.path == '/rounds/open':
+                jd = get_rounds(True)
+            elif self.path == '/rounds/close':
+                jd = get_rounds(False)
+        if jd:
+            self.wfile.write(jd.encode('utf-8'))
 
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
@@ -152,7 +204,7 @@ class APIHandler(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    server_address = ('', 8081)
+    server_address = ('', 8085)
     httpd = HTTPServer(server_address, APIHandler)
     print("Starting server")
     httpd.serve_forever()
