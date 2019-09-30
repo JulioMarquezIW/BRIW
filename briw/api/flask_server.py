@@ -7,7 +7,7 @@ from werkzeug.http import HTTP_STATUS_CODES
 from flask import request
 from flask import render_template
 from briw.persistence.drinks_controller import get_drinks_from_database, save_new_drink_in_database, get_drink_by_id_from_database
-from briw.persistence.round_controller import get_rounds_from_database, create_new_open_round_in_database, close_round_in_database, add_order_to_round_in_database
+from briw.persistence.round_controller import get_rounds_from_database, create_new_open_round_in_database, close_round_in_database, add_order_to_round_in_database, get_round_by_id
 from briw.persistence.people_controller import get_people_from_database, save_new_user_in_database, get_person_by_id_from_database
 from briw.classes.brew_round import Round
 from briw.classes.order import Order
@@ -30,6 +30,27 @@ def hello_world():
     return jsonify(username='hola',
                    email='hola', )
 
+# TODO SACAR A OTRO ARCHIVO
+
+
+def error_response(status_code, message=None):
+    payload = {'error': HTTP_STATUS_CODES.get(status_code, 'Unknown error')}
+    if message:
+        payload['message'] = message
+    response = jsonify(payload)
+    response.status_code = status_code
+    return response
+
+# TODO SACAR A OTRO ARCHIVO
+
+
+def bad_request(message):
+    return error_response(400, message)
+
+
+# ? API
+
+# * ROUNDS
 
 @app.route('/api/rounds', methods=['GET', 'POST'])
 def api_rounds():
@@ -51,32 +72,14 @@ def api_open_rounds():
         return "Unsupported HTTP Request Type"
 
 
-# TODO SACAR A OTRO ARCHIVO
-
-
-def error_response(status_code, message=None):
-    payload = {'error': HTTP_STATUS_CODES.get(status_code, 'Unknown error')}
-    if message:
-        payload['message'] = message
-    response = jsonify(payload)
-    response.status_code = status_code
-    return response
-
-# TODO SACAR A OTRO ARCHIVO
-
-
-def bad_request(message):
-    return error_response(400, message)
-
-
 @app.route('/api/rounds/open/order', methods=['POST'])
 def api_add_order_to_open_round():
     if request.method == 'POST':
         data = request.get_json() or {}
-        open_rounds = get_rounds_from_database(True)
 
         if 'person_id' not in data or 'drink_id' not in data:
             return bad_request('must include person_id and drink_id fields')
+        open_rounds = get_rounds_from_database(True)
         if len(open_rounds) == 0:
             return bad_request(texts.NOT_OPEN_ROUND)
         person = get_person_by_id_from_database(data['person_id'])
@@ -100,11 +103,56 @@ def api_add_order_to_open_round():
         return "Unsupported HTTP Request Type"
 
 
+@app.route('/api/rounds/open/close', methods=['POST'])
+def api_close_open_round():
+    if request.method == 'POST':
+
+        open_rounds = get_rounds_from_database(True)
+        if len(open_rounds) == 0:
+            return bad_request(texts.NOT_OPEN_ROUND)
+
+        open_round = open_rounds[0]
+        close_round = close_round_in_database(open_round)
+
+        response = jsonify(close_round.to_json())
+        response.status_code = 201
+
+        return response
+
+    else:
+        return "Unsupported HTTP Request Type"
+
+
+@app.route('/api/rounds/<int:id>', methods=['GET', 'PUT'])
+def api_get_round_by_id(id):
+    if request.method == 'GET':
+        getted_round = get_round_by_id(id)
+        if getted_round == None:
+            return bad_request('there is no round with that id')
+        return getted_round.to_json()
+    else:
+        return "Unsupported HTTP Request Type"
+
+
+# * DRINKS
+
 @app.route('/api/drinks', methods=['GET', 'POST'])
 def api_get_drinks():
     if request.method == 'GET':
         drinks = get_drinks_from_database()
         return {'Drinks': [drink.to_json() for drink in drinks]}
+
+    if request.method == 'POST':
+        data = request.get_json() or {}
+        if 'name' not in data:
+            return bad_request('must include name field')
+
+        new_drink = Drink(data['name'])
+        save_drink = save_new_drink_in_database(new_drink)
+        response = jsonify(save_drink.to_json())
+        response.status_code = 201
+
+        return response
 
     else:
         return "Unsupported HTTP Request Type"
@@ -117,9 +165,12 @@ def api_get_drink_by_id(id):
         if drink == None:
             return bad_request('there is no drink with that id')
         return drink.to_json()
+
     else:
         return "Unsupported HTTP Request Type"
 
+
+# * PEOPLE
 
 @app.route('/api/people/<int:id>', methods=['GET', 'PUT'])
 def api_get_person_by_id(id):
@@ -138,9 +189,24 @@ def api_get_people():
         people = get_people_from_database()
         return {'People': [person.to_json() for person in people]}
 
+    if request.method == 'POST':
+        data = request.get_json() or {}
+        if 'name' not in data or 'favourite_drink_id' not in data:
+            return bad_request('must include name and favourite_drink_id fields')
+        drink = get_drink_by_id_from_database(data['favourite_drink_id'])
+        if drink == None:
+            return bad_request('there is no drink with that id')
+        new_person = Person(data['name'], drink)
+        save_person = save_new_user_in_database(new_person)
+        response = jsonify(save_person.to_json())
+        response.status_code = 201
+
+        return response
     else:
         return "Unsupported HTTP Request Type"
 
+
+# ? WEB SERVER
 
 @app.route('/drinks', methods=['GET', 'POST'])
 def drinks():
