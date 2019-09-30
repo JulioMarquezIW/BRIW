@@ -31,3 +31,15 @@ class Round:
 
     def get_string_date(self):
         return self.open_date.strftime(texts.DATE_FORMAT)
+
+    def to_json(self):
+        status = texts.CLOSE
+        if self.is_open:
+            status = texts.OPEN
+        return {
+            'Brewer': self.brewer.to_json(),
+            'Status': status,
+            'Round ID': self.round_id,
+            'Open date': self.get_string_date(),
+            'Orders': [order.to_json() for order in self.orders]
+        }

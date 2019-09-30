@@ -14,7 +14,8 @@ def get_rounds_from_database(is_open_filter=None):
 
     query = """
        	SELECT r.is_open, r.brewer as brewer_id, r.open_date, r.round_id,
-        p.name as brewer_name, p2.name as person_name, d.name as drink_name
+        p.name as brewer_name, p2.name as person_name, d.name as drink_name,
+        d.drink_id, p2.person_id, o.order_id
        	FROM BrewOrder as o
        	RIGHT JOIN BrewRound as r
        	ON o.round_id = r.round_id
@@ -50,7 +51,8 @@ def get_rounds_from_database(is_open_filter=None):
                 round_orders = []
             if order['person_name']:
                 round_orders.append(
-                    Order(Person(order['person_name']), Drink(order['drink_name'])))
+                    Order(Person(order['person_name'], person_id=order['person_id']),
+                          Drink(order['drink_name'], order['drink_id']), order['order_id']))
 
         rounds.append(
             Round(
