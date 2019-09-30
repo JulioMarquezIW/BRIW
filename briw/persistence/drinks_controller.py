@@ -39,3 +39,17 @@ def update_drink_in_database(drink: Drink):
         SET name='{drink.name}', drink_id={drink.drink_id}
         WHERE drink_id={drink.drink_id}
         """)
+
+
+def get_drink_by_id_from_database(drink_id):
+
+    db = Database(Config)
+
+    db_drinks = db.run_query(
+        f"""SELECT * FROM Drink AS d WHERE d.drink_id = {drink_id} """)
+
+    if len(db_drinks) != 0:
+        drink = db_drinks[0]
+        return Drink(drink['name'], drink['drink_id'])
+    else:
+        return None
