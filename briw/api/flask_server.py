@@ -6,7 +6,7 @@ from flask import request
 from flask import render_template
 from briw.persistence.drinks_controller import get_drinks_from_database, save_new_drink_in_database
 from briw.persistence.round_controller import get_rounds_from_database, create_new_open_round_in_database, close_round_in_database, add_order_to_round_in_database
-
+from briw.persistence.people_controller import get_people_from_database, save_new_user_in_database
 
 template_dir = os.path.dirname(os.path.dirname(
     os.path.abspath(os.path.dirname(__file__))))
@@ -39,6 +39,26 @@ def api_open_rounds():
     if request.method == 'GET':
         rounds = get_rounds_from_database(True)
         return {'Open rounds': [round.to_json() for round in rounds]}
+
+    else:
+        return "Unsupported HTTP Request Type"
+
+
+@app.route('/api/drinks', methods=['GET', 'POST'])
+def api_get_drinks():
+    if request.method == 'GET':
+        drinks = get_drinks_from_database()
+        return {'Drinks': [drink.to_json() for drink in drinks]}
+
+    else:
+        return "Unsupported HTTP Request Type"
+
+
+@app.route('/api/people', methods=['GET', 'POST'])
+def api_get_people():
+    if request.method == 'GET':
+        people = get_people_from_database()
+        return {'People': [person.to_json() for person in people]}
 
     else:
         return "Unsupported HTTP Request Type"
