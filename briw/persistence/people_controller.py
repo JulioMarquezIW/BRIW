@@ -62,3 +62,20 @@ def get_person_by_id_from_database(person_id):
             user['drink_name'], user['favourite_drink_id']), user['person_id'])
     else:
         return None
+
+
+def search_person_by_name(person_name):
+    db = Database(Config)
+
+    people = []
+
+    db_users = db.run_query(
+        f"""SELECT p.person_id, p.name as person_name, p.favourite_drink_id, d.name as drink_name
+        FROM Person AS p INNER JOIN Drink as d ON p.favourite_drink_id = d.drink_id WHERE upper(p.name) = '{person_name.strip().upper()}' """)
+
+    if len(db_users) != 0:
+        for user in db_users:
+            people.append(Person(user['person_name'], Drink(
+                user['drink_name'], user['favourite_drink_id']), user['person_id']))
+
+    return people

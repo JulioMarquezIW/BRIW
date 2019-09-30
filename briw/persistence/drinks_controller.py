@@ -53,3 +53,17 @@ def get_drink_by_id_from_database(drink_id):
         return Drink(drink['name'], drink['drink_id'])
     else:
         return None
+
+
+def search_drinks_by_name_from_database(drink_name):
+    drinks = []
+
+    db = Database(Config)
+
+    db_drinks = db.run_query(
+        f"""SELECT * FROM Drink AS d WHERE upper(d.name) = '{drink_name.strip().upper()}' """)
+
+    for drink in db_drinks:
+        drinks.append(Drink(drink['name'], drink['drink_id']))
+
+    return drinks
