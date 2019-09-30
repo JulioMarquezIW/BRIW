@@ -18,11 +18,12 @@ from briw.classes.person import Person
 template_dir = os.path.dirname(os.path.dirname(
     os.path.abspath(os.path.dirname(__file__))))
 template_dir = os.path.join(template_dir, 'html')
+static_dir = os.path.join(template_dir, 'static')
 
 print(template_dir)
 
 
-app = Flask(__name__, template_folder=template_dir)
+app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 
 
 @app.route('/')
