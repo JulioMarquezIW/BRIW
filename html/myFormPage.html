@@ -1,9 +1,27 @@
 <!DOCTYPE html>
+<head>
+  <script>
+    function validateForm() {
+      var firstname = document.forms["myForm"]["firstname"].value;
+      var lastname = document.forms["myForm"]["lastname"].value;
+      if (firstname == "" || lastname == "") {
+        var error = document.getElementById("validation_error");
+        error.style.display = "block";
+        return false;
+      }
+    }
+  </script>
+</head>
 <html>
   <body>
     <h2>Form test</h2>
 
-    <form action="" method="POST">
+    <form
+      name="myForm"
+      action=""
+      method="POST"
+      onsubmit="return validateForm()"
+    >
       First name:<br />
       <input id="firstname" type="text" name="firstname" value="Mickey" />
       <br />
@@ -11,6 +29,9 @@
       <input id="lastname" type="text" name="lastname" value="Mouse" />
       <br /><br />
       <input type="submit" value="Submit" />
+      <p id="validation_error" style="display: none">
+        Fields must not be empty
+      </p>
     </form>
   </body>
 </html>
