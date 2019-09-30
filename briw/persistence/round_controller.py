@@ -77,11 +77,12 @@ def create_new_open_round_in_database(new_round: Round):
 def add_order_to_round_in_database(open_round: Round, new_order: Order):
     db = Database(Config)
 
-    db.run_query(
+    new_order.order_id = db.run_query(
         f"""
         INSERT INTO BrewOrder(drink_id, person_id, round_id) 
         VALUES ({new_order.drink.drink_id},{new_order.person.person_id},{open_round.round_id})
         """)
+    return new_order
 
 
 def close_round_in_database(open_round: Round):
@@ -92,3 +93,4 @@ def close_round_in_database(open_round: Round):
         UPDATE BrewRound SET is_open=FALSE WHERE round_id={open_round.round_id}
         """)
     open_round.is_open = False
+    return open_round

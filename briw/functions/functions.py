@@ -290,29 +290,6 @@ def ask_drinks_for_pepole(new_round, people, drinks):
     return new_round
 
 
-def ask_sublist_people(people, drinks, new_round):
-    """
-    Show the list of the people and ask what people want in a new list.
-    + Parameters:
-        - people: list of people
-        - text: text to show in console
-    Return a new people list
-    """
-
-    system('clear')
-    printer_aux.print_list(texts.PEOPLE, people)
-    new_people_list = []
-    identifiers = ask_list_of_numbers(texts.ASK_PEOPLE_IDS, 1, len(people))
-
-    for p_id in identifiers:
-        new_people_list.append(people[p_id-1])
-
-    printer_aux.print_list(texts.PEOPLE_WHO_WANT_DRINK, new_people_list)
-    printer_aux.enter_to_continue()
-
-    return ask_drinks_for_pepole(new_round, new_people_list, drinks)
-
-
 def create_round_and_set_brewer(people, rounds):
     system('clear')
 
@@ -356,7 +333,7 @@ def add_order_to_round(people, drinks, rounds):
                     person = people[person_id - 1]
                     new_order = Order(person, drink)
                     try:
-                        round_controller.add_order_to_round_in_database(
+                        new_order = round_controller.add_order_to_round_in_database(
                             open_round, new_order)
                         rounds[-1].orders.append(new_order)
                         print(texts.CREATED_ORDER)
@@ -379,8 +356,8 @@ def close_open_round(rounds):
 
         if ask_boolean(texts.CONFIRM_CLOSE_ROUND):
             try:
-                round_controller.close_round_in_database(open_round)
-                rounds[-1].is_open = False
+                rounds[-1] = round_controller.close_round_in_database(
+                    open_round)
                 print(texts.ROUND_CLOSED)
             except DatabaseError:
                 print(texts.DATABASE_ERROR + texts.ROUND_NOT_CLOSED)
