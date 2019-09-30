@@ -28,8 +28,17 @@ def hello_world():
 def api_rounds():
     if request.method == 'GET':
         rounds = get_rounds_from_database()
-        aa = {'rounds': [round.to_json() for round in rounds]}
-        return aa
+        return {'rounds': [round.to_json() for round in rounds]}
+
+    else:
+        return "Unsupported HTTP Request Type"
+
+
+@app.route('/api/rounds/open', methods=['GET'])
+def api_open_rounds():
+    if request.method == 'GET':
+        rounds = get_rounds_from_database(True)
+        return {'Open rounds': [round.to_json() for round in rounds]}
 
     else:
         return "Unsupported HTTP Request Type"

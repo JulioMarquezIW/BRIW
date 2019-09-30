@@ -37,7 +37,7 @@ class Round:
         if self.is_open:
             status = texts.OPEN
         return {
-            'Brewer': self.brewer.to_json(),
+            'Brewer': self.brewer.to_no_drink_json(),
             'Status': status,
             'Round ID': self.round_id,
             'Open date': self.get_string_date(),
