@@ -9,6 +9,7 @@ from briw.functions import file_functions
 from os import system
 from briw.persistence import people_controller, drinks_controller, round_controller
 from briw.database.database_execption import DatabaseError
+import copy
 
 
 def ask_boolean(text):
@@ -238,7 +239,7 @@ def set_favourite_drink(people, drinks):
         drink_id = ask_number(texts.ENTER_DRINK_ID, 0, len(drinks))
         if drink_id != 0:
             drink = drinks[drink_id-1]
-            person_to_save = people[person_id - 1]
+            person_to_save = copy.deepcopy(people[person_id - 1])
             person_to_save.set_favourite_drink(drink)
             try:
                 people_controller.update_user_in_database(person_to_save)
