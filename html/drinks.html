@@ -45,6 +45,8 @@
       <main role="main" class="inner"></main>
         <h1 class="cover-heading">Drinks</h1>
         <div class="card-columns">
+
+          {% for drink in drinks %}
           <!-- DRINK CARD -->
           <div class="card text-white bg-primary" >
             <img
@@ -52,9 +54,10 @@
               class="card-img-top"
             />
             <div class="card-body">
-              <h5 class="card-title">Water</h5>
+              <h5 class="card-title">{{ drink.name }}</h5>
             </div>
           </div>
+          {% endfor %}
 
         </div>
       </main>
