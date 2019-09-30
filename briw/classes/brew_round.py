@@ -2,6 +2,7 @@
 from briw.classes.person import Person
 from briw.classes.drink import Drink
 from briw.classes.order import Order
+from briw.data import texts
 import datetime
 
 
@@ -27,3 +28,6 @@ class Round:
 
     def close_round(self):
         self.is_open = False
+
+    def get_string_date(self):
+        return self.open_date.strftime(texts.DATE_FORMAT)

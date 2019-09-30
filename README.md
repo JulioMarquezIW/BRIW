@@ -25,6 +25,12 @@ Execute at the root of the project:
 pytest
 ```
 
+Get test coverage:
+
+```
+pytest --cov=briw tests/
+```
+
 ## Running the project
 
 Execute at the root of the project: 
