@@ -49,21 +49,34 @@
       </header>
 
       <main role="main" class="inner">
-        <h1 class="cover-heading">Drinks</h1>
-        <div class="card-columns">
-          {% for drink in drinks %}
-          <!-- DRINK CARD -->
-          <div class="card text-white bg-primary">
-            <img
-              src="https://cdn.images.express.co.uk/img/dynamic/11/750x445/1163848.jpg"
-              class="card-img-top"
+        <h1 class="cover-heading">Add new drink</h1>
+
+        <form>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input
+              type="email"
+              class="form-control"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+              placeholder="Enter email"
             />
-            <div class="card-body">
-              <h5 class="card-title">{{ drink.name }}</h5>
-            </div>
+            <small id="emailHelp" class="form-text text-muted"
+              >We'll never share your email with anyone else.</small
+            >
           </div>
-          {% endfor %}
-        </div>
+          <div class="form-check">
+            <input
+              type="checkbox"
+              class="form-check-input"
+              id="exampleCheck1"
+            />
+            <label class="form-check-label" for="exampleCheck1"
+              >Check me out</label
+            >
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
       </main>
 
       <footer class="mastfoot mt-auto">
