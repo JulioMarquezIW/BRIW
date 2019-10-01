@@ -295,6 +295,15 @@ def drinks():
         return "Unsupported HTTP Request Type"
 
 
+@app.route('/add_drink', methods=['GET', 'POST'])
+def add_drink():
+    if request.method == 'GET':
+        return render_template('add_drink.html', title='Add Drink')
+
+    else:
+        return "Unsupported HTTP Request Type"
+
+
 @app.route('/form-example', methods=['GET', 'POST'])
 def form_example():
     if request.method == 'POST':

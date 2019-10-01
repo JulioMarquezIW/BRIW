@@ -32,6 +32,21 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='styles/cover.css') }}"
     />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+      function validateForm() {
+        var firstname = document.forms["myForm"]["firstname"].value;
+        var lastname = document.forms["myForm"]["lastname"].value;
+        if (firstname == "" || lastname == "") {
+          var error = document.getElementById("validation_error");
+          error.style.display = "block";
+          return false;
+        }
+      }
+    </script>
   </head>
 
   <body class="text-center" data-gr-c-s-loaded="true">
@@ -39,30 +54,52 @@
       <header class="masthead mb-auto">
         <div class="inner">
           <h3 class="masthead-brand">
-            <a class="nav-link" href="index.html">BrIW</a>
+            <a class="nav-link" href="/">BrIW</a>
           </h3>
           <nav class="nav nav-masthead justify-content-center">
-            <a class="nav-link" href="index.html">Home</a>
-            <a class="nav-link active" href="drinks.html">Drinks</a>
+            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link active" href="/drinks">Drinks</a>
           </nav>
         </div>
       </header>
 
-      <main role="main" class="inner">
+      <main role="main" class="inner cover">
         <h1 class="cover-heading">Drinks</h1>
         <div class="card-columns">
           {% for drink in drinks %}
           <!-- DRINK CARD -->
           <div class="card text-white bg-primary">
-            <img
-              src="https://cdn.images.express.co.uk/img/dynamic/11/750x445/1163848.jpg"
-              class="card-img-top"
-            />
             <div class="card-body">
               <h5 class="card-title">{{ drink.name }}</h5>
             </div>
           </div>
           {% endfor %}
+        </div>
+
+        <button
+          class="btn btn-primary"
+          type="button"
+          data-toggle="collapse"
+          data-target="#addDrinkForm"
+          aria-expanded="false"
+          aria-controls="addDrinkForm"
+        >
+          Add new drink
+        </button>
+
+        <div class="collapse" id="addDrinkForm">
+          <form>
+            <div class="form-group">
+              <label for="drinkName">Name of the new drink</label>
+              <input
+                type="text"
+                class="form-control"
+                id="drinkName"
+                placeholder="Enter drink name"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
         </div>
       </main>
 
