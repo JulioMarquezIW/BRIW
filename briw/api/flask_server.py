@@ -26,11 +26,6 @@ print(template_dir)
 app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 
 
-@app.route('/')
-def hello_world():
-    return jsonify(username='hola',
-                   email='hola', )
-
 # TODO SACAR A OTRO ARCHIVO
 
 
@@ -223,6 +218,8 @@ def api_get_drinks():
         data = request.get_json() or {}
         if 'name' not in data:
             return bad_request('must include name field')
+        if len(search_drinks_by_name_from_database(data['name'])) > 0:
+            return bad_request('there is already a drink with that name')
 
         new_drink = Drink(data['name'])
         save_drink = save_new_drink_in_database(new_drink)
@@ -285,35 +282,83 @@ def api_get_people():
 
 # ? WEB SERVER
 
+@app.route('/')
+def hello_world():
+    return render_template('index.html', title='BrIW')
+
+
 @app.route('/drinks', methods=['GET', 'POST'])
-def drinks():
+def web_drinks():
     if request.method == 'GET':
         drinks = get_drinks_from_database()
+
         return render_template('drinks.html', title='Drinks', drinks=drinks)
 
-    else:
-        return "Unsupported HTTP Request Type"
-
-
-@app.route('/add_drink', methods=['GET', 'POST'])
-def add_drink():
-    if request.method == 'GET':
-        return render_template('add_drink.html', title='Add Drink')
-
-    else:
-        return "Unsupported HTTP Request Type"
-
-
-@app.route('/form-example', methods=['GET', 'POST'])
-def form_example():
     if request.method == 'POST':
-        firstname = request.form.get('firstname')
-        lastname = request.form['lastname']
-        return render_template('myPostedPage.html', title='Posted', firstname=firstname, lastname=lastname)
+        drink_name = request.form.get('drink_name')
+        drinks = get_drinks_from_database()
+        if len(search_drinks_by_name_from_database(drink_name)) > 0:
+            return render_template('drinks.html', title='Drinks', drinks=drinks, error_message='There is already a drink with that name')
+        new_drink = Drink(drink_name)
+        saved_drink = save_new_drink_in_database(new_drink)
+        drinks.append(saved_drink)
+        return render_template('drinks.html', title='Drinks', drinks=drinks)
+    else:
+        return "Unsupported HTTP Request Type"
 
+
+@app.route('/people', methods=['GET', 'POST'])
+def web_people():
     if request.method == 'GET':
-        return render_template('myFormPage.html', title='Post')
 
+        people = get_people_from_database()
+        drinks = get_drinks_from_database()
+
+        return render_template('people.html', title='People', people=people, drinks=drinks)
+
+    if request.method == 'POST':
+        drink_id = request.form.get('drink_id')
+
+        drink = None
+        if drink_id != 'None':
+            drink = get_drink_by_id_from_database(drink_id)
+
+        person_name = request.form.get('person_name')
+
+        new_person = Person(person_name, drink)
+        save_new_user_in_database(new_person)
+        people = get_people_from_database()
+        drinks = get_drinks_from_database()
+
+        return render_template('people.html', title='People', people=people, drinks=drinks)
+    else:
+        return "Unsupported HTTP Request Type"
+
+
+@app.route('/rounds', methods=['GET', 'POST'])
+def web_rounds():
+    if request.method == 'GET':
+
+        people = get_people_from_database()
+        drinks = get_drinks_from_database()
+
+        return render_template('people.html', title='People', people=people, drinks=drinks)
+
+    if request.method == 'POST':
+        drink_id = request.form.get('drink_id')
+
+        drink = None
+        if drink_id != 'None':
+            drink = get_drink_by_id_from_database(drink_id)
+
+        person_name = request.form.get('person_name')
+
+        new_person = Person(person_name, drink)
+        save_new_user_in_database(new_person)
+        people = get_people_from_database()
+        drinks = get_drinks_from_database()
+
+        return render_template('people.html', title='People', people=people, drinks=drinks)
     else:
         return "Unsupported HTTP Request Type"
 

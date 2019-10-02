@@ -38,20 +38,18 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#"
-              >Home <span class="sr-only">(current)</span></a
-            >
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Drinks</a>
+            <a class="nav-link" href="/drinks">Drinks</a>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="#">People</a>
+          <li class="nav-item active">
+            <a class="nav-link" href="/people">People</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Rounds</a>
+            <a class="nav-link" href="/rounds">Rounds</a>
           </li>
         </ul>
       </div>
@@ -60,26 +58,50 @@
     <div class="container">
       <div class="row">
         <div class="col-sm mt-5">
-          <ul class="list-group">
-            <li class="list-group-item">Cras justo odio</li>
-            <li class="list-group-item">Dapibus ac facilisis in</li>
-            <li class="list-group-item">Morbi leo risus</li>
-            <li class="list-group-item">Porta ac consectetur ac</li>
-            <li class="list-group-item">Vestibulum at eros</li>
-          </ul>
+          <table class="table">
+            <thead class="">
+              <tr class="bg-primary text-white">
+                <th scope="col">Person</th>
+                <th scope="col">Favourite Drink</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for person in people %}
+              <tr>
+                <td>{{ person.name }}</td>
+
+                {% if person.favourite_drink is not none %}
+                <td>{{ person.favourite_drink.name }}</td>
+                {% else %}
+                <td>None</td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
 
         <div class="col-sm mt-5">
-          <form>
+          <h2>Create new person</h2>
+          <form action="" method="POST">
             <div class="form-group">
-              <label for="exampleInputEmail1">Add new drink</label>
+              <label for="person_name">New person name</label>
               <input
-                type="email"
+                type="text"
                 class="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                placeholder="Enter email"
+                id="person_name"
+                name="person_name"
+                placeholder="Enter name"
               />
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Select drink</label>
+              <select id="drink_id" name="drink_id" class="form-control">
+                <option value="None" selected>None</option>
+                {% for drink in drinks %}
+                <option value="{{ drink.drink_id }}">{{ drink.name }}</option>
+                {% endfor %}
+              </select>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>

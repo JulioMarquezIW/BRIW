@@ -11,11 +11,6 @@
 
     <title>BrIW</title>
 
-    <link
-      rel="canonical"
-      href="https://getbootstrap.com/docs/4.3/examples/cover/"
-    />
-
     <!-- Bootstrap core CSS -->
     <link
       rel="stylesheet"
@@ -28,89 +23,73 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='styles/main.css') }}"
     />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles/cover.css') }}"
-    />
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script>
-      function validateForm() {
-        var firstname = document.forms["myForm"]["firstname"].value;
-        var lastname = document.forms["myForm"]["lastname"].value;
-        if (firstname == "" || lastname == "") {
-          var error = document.getElementById("validation_error");
-          error.style.display = "block";
-          return false;
-        }
-      }
-    </script>
   </head>
-
   <body class="text-center" data-gr-c-s-loaded="true">
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-      <header class="masthead mb-auto">
-        <div class="inner">
-          <h3 class="masthead-brand">
-            <a class="nav-link" href="/">BrIW</a>
-          </h3>
-          <nav class="nav nav-masthead justify-content-center">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">BrIW</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
             <a class="nav-link" href="/">Home</a>
-            <a class="nav-link active" href="/drinks">Drinks</a>
-          </nav>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/drinks">Drinks</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/people">People</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/rounds">Rounds</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm mt-5">
+          <ul class="list-group">
+            <li class="list-group-item active">
+              <h3>Drinks</h3>
+            </li>
+            {% for drink in drinks %}
+            <li class="list-group-item">{{ drink.name }}</li>
+            {% endfor %}
+          </ul>
         </div>
-      </header>
 
-      <main role="main" class="inner cover">
-        <h1 class="cover-heading">Drinks</h1>
-        <div class="card-columns">
-          {% for drink in drinks %}
-          <!-- DRINK CARD -->
-          <div class="card text-white bg-primary">
-            <div class="card-body">
-              <h5 class="card-title">{{ drink.name }}</h5>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-
-        <button
-          class="btn btn-primary"
-          type="button"
-          data-toggle="collapse"
-          data-target="#addDrinkForm"
-          aria-expanded="false"
-          aria-controls="addDrinkForm"
-        >
-          Add new drink
-        </button>
-
-        <div class="collapse" id="addDrinkForm">
-          <form>
+        <div class="col-sm mt-5">
+          <form action="" method="POST">
             <div class="form-group">
-              <label for="drinkName">Name of the new drink</label>
+              <label for="drink_name">Add new drink</label>
               <input
                 type="text"
                 class="form-control"
-                id="drinkName"
-                placeholder="Enter drink name"
+                id="drink_name"
+                name="drink_name"
+                placeholder="Enter name"
               />
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
+            {% if error_message is not none %}
+            <h3 class="text-danger mt-5">{{ error_message }}</h3>
+            {% endif %}
           </form>
         </div>
-      </main>
-
-      <footer class="mastfoot mt-auto">
-        <div class="inner">
-          <p>
-            Collaborates with the BrIw in
-            <a href="https://github.com/JulioMarquezIW/BRIW">GitHub</a>
-          </p>
-        </div>
-      </footer>
+      </div>
     </div>
   </body>
 </html>

@@ -46,7 +46,7 @@ def get_drink_by_id_from_database(drink_id):
     db = Database(Config)
 
     db_drinks = db.run_query(
-        f"""SELECT * FROM Drink AS d WHERE d.drink_id = {drink_id} """)
+        f"""SELECT * FROM Drink AS d WHERE d.drink_id = {int(drink_id)} """)
 
     if len(db_drinks) != 0:
         drink = db_drinks[0]
