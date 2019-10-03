@@ -99,7 +99,6 @@ def post_add_order_to_round(handler, data):
         new_order = Order(Person(person_id=data['person_id']), Drink(
             drink_id=data['drink_id']))
 
-        # TODO Check if the round is closed before to add the order
         add_order_to_round_in_database(open_round, new_order)
 
         handler.send_response(201)

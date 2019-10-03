@@ -11,8 +11,8 @@ def get_people_from_database():
     db = Database(Config)
 
     db_users = db.run_query(
-        """SELECT p.person_id, p.name as person_name, p.favourite_drink_id, d.name as drink_name 
-        FROM Person AS p INNER JOIN Drink as d ON p.favourite_drink_id = d.drink_id""")
+        """SELECT p.person_id, p.name as person_name, p.favourite_drink_id, d.name as drink_name
+        FROM Person AS p LEFT JOIN Drink as d ON p.favourite_drink_id = d.drink_id""")
 
     for user in db_users:
         users.append(Person(user['person_name'], Drink(
@@ -26,7 +26,7 @@ def save_new_user_in_database(new_user: Person):
     query = f"""INSERT INTO Person(name) VALUES ('{new_user.name}')"""
 
     if new_user.favourite_drink != None:
-        query = f"""INSERT INTO Person(name,favourite_drink_id) 
+        query = f"""INSERT INTO Person(name,favourite_drink_id)
         VALUES ('{new_user.name}', {new_user.favourite_drink.drink_id})"""
 
     new_user.person_id = db.run_query(query)
@@ -46,3 +46,36 @@ def update_user_in_database(user: Person):
         SET name='{user.name}', favourite_drink_id={user.favourite_drink.drink_id}
         WHERE person_id={user.person_id}
         """)
+
+
+def get_person_by_id_from_database(person_id):
+
+    db = Database(Config)
+
+    db_users = db.run_query(
+        f"""SELECT p.person_id, p.name as person_name, p.favourite_drink_id, d.name as drink_name
+        FROM Person AS p INNER JOIN Drink as d ON p.favourite_drink_id = d.drink_id WHERE p.person_id = {person_id} """)
+
+    if len(db_users) != 0:
+        user = db_users[0]
+        return Person(user['person_name'], Drink(
+            user['drink_name'], user['favourite_drink_id']), user['person_id'])
+    else:
+        return None
+
+
+def search_person_by_name(person_name):
+    db = Database(Config)
+
+    people = []
+
+    db_users = db.run_query(
+        f"""SELECT p.person_id, p.name as person_name, p.favourite_drink_id, d.name as drink_name
+        FROM Person AS p INNER JOIN Drink as d ON p.favourite_drink_id = d.drink_id WHERE upper(p.name) = '{person_name.strip().upper()}' """)
+
+    if len(db_users) != 0:
+        for user in db_users:
+            people.append(Person(user['person_name'], Drink(
+                user['drink_name'], user['favourite_drink_id']), user['person_id']))
+
+    return people
