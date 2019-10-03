@@ -1,0 +1,19 @@
+- hosts: ec2
+  tasks:
+    - name: ensure nginx is at the latest version
+      apt: name=nginx state=latest update_cache=yes
+      become: yes
+    - name: start nginx
+      service:
+        name: nginx
+        state: started
+      become: yes
+    - name: copy the index file to www
+      copy:
+        src: ~/academy/coffeProject/html/
+        dest: /var/www/html/
+      become: yes
+    - name: restart nginx
+      service: name=nginx
+        state=restarted
+      become: yes
