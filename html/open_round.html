@@ -39,35 +39,39 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#">Home</a>
+            <a class="nav-link" href="/">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Drinks</a>
+            <a class="nav-link" href="/drinks">Drinks</a>
           </li>
-
           <li class="nav-item">
-            <a class="nav-link" href="#">People</a>
+            <a class="nav-link" href="/people">People</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="#">Rounds</a>
+            <a class="nav-link" href="/open-round">Open Round</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/rounds">Rounds</a>
           </li>
         </ul>
       </div>
     </nav>
 
     <div class="container">
-      <div class="row">
+      {% if open_round is not none %}
+
+      <div class="row mb-5">
         <div class="col-sm mt-5">
           <h2>Open Round</h2>
           <table class="table">
             <thead>
               <tr class="table-info">
                 <th scope="col">Maker</th>
-                <th scope="col">Julio</th>
+                <th scope="col">{{ open_round.brewer.name }}</th>
               </tr>
               <tr class="table-info">
                 <th scope="col">Open time</th>
-                <th scope="col">10/12/2019</th>
+                <th scope="col">{{ open_round.open_date }}</th>
               </tr>
               <tr class="table-secondary">
                 <th scope="col" colspan="2">Orders</th>
@@ -78,45 +82,68 @@
               </tr>
             </thead>
             <tbody>
+              {% for order in open_round.orders %}
               <tr>
-                <td>Mark</td>
-                <td>Otto</td>
+                <td>{{ order.person.name }}</td>
+                <td>{{ order.drink.name }}</td>
               </tr>
-              <tr>
-                <td>Jacob</td>
-                <td>Jacob</td>
-              </tr>
-              <tr>
-                <td>Larry</td>
-                <td>the Bird</td>
+              {% endfor %}
               </tr>
             </tbody>
           </table>
+          <form action="{{ url_for('web_close_round') }}" method="POST">
+            <input type="hidden" id="round_id" name="round_id" value="{{open_round.round_id}}">
+            <button type="submit" type="button" class="btn btn-primary"  >Close Round</button>
+          </form>
         </div>
 
         <div class="col-sm mt-5">
           <h2>Add new order</h2>
-          <form>
+          <form action="{{ url_for('web_add_order') }}" method="POST">
+            <input type="hidden" id="round_id" name="round_id" value="{{open_round.round_id}}">
             <div class="form-group">
               <label for="exampleInputEmail1">Select person</label>
-              <select id="inputState" class="form-control">
-                <option selected>Choose...</option>
-                <option>Julio</option>
-                <option>Dani</option>
+              <select id="person_id" name="person_id" class="form-control">
+                {% for person in people %}
+                <option value="{{ person.person_id }}">{{ person.name }}</option>
+                {% endfor %}
               </select>
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">Select drink</label>
-              <select id="inputState" class="form-control">
-                <option selected>Choose...</option>
-                <option>Coffee</option>
-                <option>Water</option>
+              <select id="drink_id" name="drink_id" class="form-control">
+                {% for drink in drinks %}
+                <option value="{{ drink.drink_id }}">{{ drink.name }}</option>
+                {% endfor %}
               </select>
             </div>
+
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
         </div>
       </div>
+      {% else %}
+      <div class="row">
+
+        <div class="col-sm mt-5">
+          <h2>There is no open round at the moment. Create it!</h2>
+          <hr>
+          <h2>Create new round</h2>
+          <form action="{{ url_for('web_open_round') }}" method="POST">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Select person</label>
+              <select id="person_id" name="person_id" class="form-control">
+                {% for person in people %}
+                <option value="{{ person.person_id }}">{{ person.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+      {% endif %}
     </div>
   </body>
 </html>

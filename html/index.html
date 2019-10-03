@@ -41,15 +41,17 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/">Home</a>
+          <li class="nav-item">
+            <a class="nav-link active" href="/">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/drinks">Drinks</a>
           </li>
-
           <li class="nav-item">
             <a class="nav-link" href="/people">People</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/open-round">Open Round</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/rounds">Rounds</a>
@@ -60,6 +62,11 @@
 
     <div class="container">
       <h1 class="mt-5">Welcome to BrIW</h1>
+      <img
+        src="{{ url_for('static', filename='imgs/brewInit.jpg') }}"
+        class="img-fluid"
+        alt="Brew image"
+      />
     </div>
   </body>
 </html>
