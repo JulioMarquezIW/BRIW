@@ -3,3 +3,5 @@ pymysql
 python-dotenv
 flask
 pytest-cov
+wheel
+gunicorn
