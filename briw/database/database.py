@@ -23,6 +23,7 @@ class Database:
             if self.conn is None:
                 self.conn = pymysql.connect(self.host,
                                             user=self.username,
+                                            port=int(self.port),
                                             passwd=self.password,
                                             db=self.dbname,
                                             connect_timeout=5)
