@@ -23,7 +23,7 @@
   </head>
   <body class="text-center" data-gr-c-s-loaded="true">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">BrIW</a>
+      <a class="navbar-brand" href="/">BrIW</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -63,8 +63,8 @@
           <table class="table">
             <thead class="">
               <tr class="bg-primary text-white">
-                <th scope="col">Person</th>
-                <th scope="col">Favourite Drink</th>
+                <th scope="col"><h3>Person</h3></th>
+                <th scope="col"><h3>Favourite Drink</h3></th>
               </tr>
             </thead>
             <tbody>
@@ -87,7 +87,7 @@
           <h2>Create new person</h2>
           <form action="" method="POST">
             <div class="form-group">
-              <label for="person_name">New person name</label>
+              <label for="person_name"><h2>New person name</h2></label>
               <input
                 required="required"
                 pattern="[A-Za-z0-9]{1,20}"
@@ -108,6 +108,9 @@
               </select>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
+            {% if error_message is not none %}
+            <h3 class="text-danger mt-5">{{ error_message }}</h3>
+            {% endif %}
           </form>
         </div>
       </div>

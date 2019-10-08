@@ -27,9 +27,6 @@ print(template_dir)
 app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
 
 
-# TODO SACAR A OTRO ARCHIVO
-
-
 def error_response(status_code, message=None):
     payload = {'error': HTTP_STATUS_CODES.get(status_code, 'Unknown error')}
     if message:
@@ -37,8 +34,6 @@ def error_response(status_code, message=None):
     response = jsonify(payload)
     response.status_code = status_code
     return response
-
-# TODO SACAR A OTRO ARCHIVO
 
 
 def bad_request(message):
@@ -298,6 +293,8 @@ def web_drinks():
     if request.method == 'POST':
         drink_name = request.form.get('drink_name')
         drinks = get_drinks_from_database()
+        if len(drink_name) == 0:
+            return render_template('drinks.html', title='Drinks', drinks=drinks, error_message='The name of the drink cannot be empty')
         if len(search_drinks_by_name_from_database(drink_name)) > 0:
             return render_template('drinks.html', title='Drinks', drinks=drinks, error_message='There is already a drink with that name')
         new_drink = Drink(drink_name)
@@ -324,12 +321,18 @@ def web_people():
         if drink_id != 'None':
             drink = get_drink_by_id_from_database(drink_id)
 
-        person_name = request.form.get('person_name')
-
-        new_person = Person(person_name, drink)
-        save_new_user_in_database(new_person)
+        person_name = request.form.get('person_name').strip()
         people = get_people_from_database()
         drinks = get_drinks_from_database()
+
+        if len(person_name) == 0:
+            return render_template('people.html', title='People', people=people, drinks=drinks, error_message='The name of the person cannot be empty')
+        if len(search_person_by_name(person_name)) > 0:
+            return render_template('people.html', title='People', people=people, drinks=drinks, error_message='There is already a person with that name')
+
+        new_person = Person(person_name, drink)
+        saved_person = save_new_user_in_database(new_person)
+        people.append(saved_person)
 
         return render_template('people.html', title='People', people=people, drinks=drinks)
     else:
