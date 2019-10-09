@@ -33,19 +33,24 @@ def save_new_user_in_database(new_user: Person):
     return new_user
 
 
-def delete_user_in_database(user: Person):
+def delete_user_in_database(person: Person):
     db = Database(Config)
     db.run_query(
-        f"""DELETE FROM Person WHERE person_id={user.person_id}""")
+        f"""DELETE FROM Person WHERE person_id={person.person_id}""")
 
 
-def update_user_in_database(user: Person):
+def update_user_in_database(person: Person):
     db = Database(Config)
-    db.run_query(
-        f"""UPDATE Person
-        SET name='{user.name}', favourite_drink_id={user.favourite_drink.drink_id}
-        WHERE person_id={user.person_id}
-        """)
+
+    if person.favourite_drink == None:
+        query = f"""UPDATE Person 
+        SET name='{person.name}', favourite_drink_id=NULL"""
+    else:
+        query = f"""UPDATE Person 
+        SET name='{person.name}', favourite_drink_id={person.favourite_drink.drink_id}"""
+
+    query += f""" WHERE person_id={person.person_id}"""
+    db.run_query(query)
 
 
 def get_person_by_id_from_database(person_id):
@@ -78,4 +83,19 @@ def search_person_by_name(person_name):
             people.append(Person(user['person_name'], Drink(
                 user['drink_name'], user['favourite_drink_id']), user['person_id']))
 
+    return people
+
+
+def get_people_by_favourite_drink_from_database(drink_id):
+
+    db = Database(Config)
+
+    db_people = db.run_query(
+        f"""SELECT p.person_id, p.name as person_name, p.favourite_drink_id, d.name as drink_name
+        FROM Person AS p INNER JOIN Drink as d ON p.favourite_drink_id = d.drink_id WHERE p.favourite_drink_id = {drink_id} """)
+
+    people = []
+    for person in db_people:
+        people.append(Person(person['person_name'], Drink(
+            person['drink_name'], person['favourite_drink_id']), person['person_id']))
     return people

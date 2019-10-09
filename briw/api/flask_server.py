@@ -6,7 +6,7 @@ from flask import jsonify
 from werkzeug.http import HTTP_STATUS_CODES
 from flask import request
 from flask import render_template
-from briw.persistence.drinks_controller import get_drinks_from_database, save_new_drink_in_database, get_drink_by_id_from_database, search_drinks_by_name_from_database
+from briw.persistence.drinks_controller import get_drinks_from_database, save_new_drink_in_database, get_drink_by_id_from_database, search_drinks_by_name_from_database, delete_drink_in_database
 from briw.persistence.round_controller import get_rounds_from_database, create_new_open_round_in_database, close_round_in_database, add_order_to_round_in_database, get_round_by_id
 from briw.persistence.people_controller import get_people_from_database, save_new_user_in_database, get_person_by_id_from_database, search_person_by_name
 from briw.classes.brew_round import Round
