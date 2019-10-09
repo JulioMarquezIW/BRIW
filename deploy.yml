@@ -1,19 +1,33 @@
 - hosts: ec2
   tasks:
-    - name: ensure nginx is at the latest version
-      apt: name=nginx state=latest update_cache=yes
+    - name: create project folder
+      file:
+        path: /home/ubuntu/briw
+        state: directory
+      become: ubuntu
+    - name: copy project to server
+      synchronize:
+        src: ~/academy/coffeProject/html/static_web/
+        dest: /home/ubuntu/briw/
+      become: ubuntu
+    - name: build static web docker image
+      docker_image:
+        build:
+          pull: no
+          path: /home/ubuntu/briw
+        name: briw_static
+        source: build
+        force_source: yes
       become: yes
-    - name: start nginx
-      service:
-        name: nginx
-        state: started
+    - name: remove container
+      docker_container:
+        name: briw_static
+        state: absent
       become: yes
-    - name: copy the index file to www
-      copy:
-        src: ~/academy/coffeProject/html/
-        dest: /var/www/html/
-      become: yes
-    - name: restart nginx
-      service: name=nginx
-        state=restarted
+    - name: Run briw_static container
+      docker_container:
+        name: briw_static_container
+        image: "briw_static:latest"
+        ports:
+          - "80:80"
       become: yes
