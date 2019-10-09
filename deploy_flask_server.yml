@@ -1,0 +1,33 @@
+- hosts: ec2
+  tasks:
+    - name: create project folder
+      file:
+        path: /home/ubuntu/flask
+        state: directory
+      become: ubuntu
+    - name: copy project to server
+      synchronize:
+        src: ~/academy/coffeProject/
+        dest: /home/ubuntu/flask/
+      become: ubuntu
+    - name: build static web docker image
+      docker_image:
+        build:
+          pull: no
+          path: /home/ubuntu/flask
+        name: briw_flask
+        source: build
+        force_source: yes
+      become: yes
+    - name: remove container
+      docker_container:
+        name: briw_flask
+        state: absent
+      become: yes
+    - name: Run briw_flask container
+      docker_container:
+        name: briw_flask_container
+        image: "briw_flask:latest"
+        ports:
+          - "5000:8085"
+      become: yes
